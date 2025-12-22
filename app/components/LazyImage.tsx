@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Image, Skeleton } from 'antd'
+import { Skeleton } from 'antd'
 
 interface LazyImageProps {
   src: string

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Card, Row, Col, Typography, Empty, Skeleton, Pagination, Tag, Space, Input } from 'antd'
 import { CalendarOutlined, FolderOutlined, SearchOutlined, EyeOutlined } from '@ant-design/icons'
@@ -68,9 +68,9 @@ export default function BlogListTemplate({
             Ediora
           </Link>
           <nav style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-            <Link href="/" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>首页</Link>
-            <Link href="/blog" style={{ color: config.colors.primary, textDecoration: 'none', fontSize: '15px', fontWeight: 500 }}>文章</Link>
-            <Link href="/archive" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>归档</Link>
+            <Link href="/" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>Home</Link>
+            <Link href="/blog" style={{ color: config.colors.primary, textDecoration: 'none', fontSize: '15px', fontWeight: 500 }}>Articles</Link>
+            <Link href="/archive" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>Archive</Link>
             <Search
               placeholder="搜索文章..."
               onSearch={handleSearch}
@@ -109,7 +109,7 @@ export default function BlogListTemplate({
             <Row gutter={[24, 24]}>
               {articles.map((article, index) => (
                 <Col xs={24} sm={12} lg={8} key={article.id}>
-                  <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Card
                       hoverable
                       className="fade-in"

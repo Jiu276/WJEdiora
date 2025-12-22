@@ -1,11 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Modal,
   Steps,
   Form,
-  Select,
   Input,
   Button,
   Card,
@@ -14,31 +13,27 @@ import {
   DatePicker,
   Switch,
   Image,
-  Checkbox,
   message,
   Spin,
 } from 'antd'
 import {
   CheckCircleOutlined,
-  CloseOutlined,
   PlusOutlined,
   DeleteOutlined,
 } from '@ant-design/icons'
 import dayjs from 'dayjs'
 
-const { Step } = Steps
 const { TextArea } = Input
-const { Option } = Select
 
 interface PublishWizardProps {
-  article?: any
-  onComplete: (data: any) => void
+  article?: unknown
+  onComplete: (data: Record<string, unknown>) => void
   onCancel: () => void
-  onTitlesGenerated?: (titles: any[]) => void // 新增：标题生成后的回调
+  onTitlesGenerated?: (titles: Array<{ id: string; title: string }>) => void // 新增：标题生成后的回调
 }
 
 export default function PublishWizard({
-  article,
+  article: _article,
   onComplete,
   onCancel,
   onTitlesGenerated,
@@ -51,7 +46,7 @@ export default function PublishWizard({
   const [prompt, setPrompt] = useState<string>('')
   
   // Step 2: 标题选择
-  const [titles, setTitles] = useState<any[]>([])
+  const [titles, setTitles] = useState<Array<{ id: string; title: string; score?: number }>>([])
   const [selectedTitle, setSelectedTitle] = useState<string>('')
   const [customTitle, setCustomTitle] = useState('')
   
@@ -61,7 +56,7 @@ export default function PublishWizard({
   
   // Step 4: 文章和配图
   const [generatedContent, setGeneratedContent] = useState('')
-  const [images, setImages] = useState<any[]>([])
+  const [images, setImages] = useState<Array<{ id: string; url: string; description?: string }>>([])
   const [selectedImages, setSelectedImages] = useState<string[]>([])
   const [publishDate, setPublishDate] = useState(dayjs())
   const [enableKeywordLinks, setEnableKeywordLinks] = useState(false)
@@ -97,7 +92,7 @@ export default function PublishWizard({
       } else {
         message.error('未能生成标题，请重试')
       }
-    } catch (error) {
+    } catch {
       message.error('生成标题失败')
     } finally {
       setLoading(false)
@@ -151,7 +146,7 @@ export default function PublishWizard({
       setImages(imagesData.images)
       
       setCurrent(3)
-    } catch (error) {
+    } catch {
       message.error('生成失败')
     } finally {
       setGenerating(false)
@@ -275,12 +270,16 @@ export default function PublishWizard({
       width={800}
       style={{ top: 20 }}
     >
-      <Steps current={current} style={{ marginBottom: 24 }}>
-        <Step title="输入提示词生成标题" />
-        <Step title="选择标题" />
-        <Step title="添加超链接" />
-        <Step title="生成文章和配图" />
-      </Steps>
+      <Steps 
+        current={current} 
+        style={{ marginBottom: 24 }}
+        items={[
+          { title: '输入提示词生成标题' },
+          { title: '选择标题' },
+          { title: '添加超链接' },
+          { title: '生成文章和配图' },
+        ]}
+      />
 
       <div style={{ minHeight: 400 }}>
         {/* Step 1: 输入提示词生成标题 */}
@@ -389,8 +388,10 @@ export default function PublishWizard({
                 dataSource={links}
                 renderItem={(link, index) => (
                   <List.Item
+                    key={index}
                     actions={[
                       <Button
+                        key="delete"
                         type="link"
                         danger
                         icon={<DeleteOutlined />}
@@ -444,7 +445,7 @@ export default function PublishWizard({
                       cover={
                         <div style={{ position: 'relative' }}>
                           <Image
-                            src={image.thumbnail || image.url}
+                            src={image.url}
                             alt={image.description}
                             style={{ width: '100%', height: 150, objectFit: 'cover' }}
                           />

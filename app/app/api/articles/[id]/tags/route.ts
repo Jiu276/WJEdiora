@@ -55,7 +55,7 @@ export async function POST(
     })
     
     // 创建新的标签记录（去重）
-    const uniqueTags = [...new Set(tags.map((tag: string) => tag.trim()).filter(Boolean))]
+    const uniqueTags = Array.from(new Set(tags.map((tag: string) => tag.trim()).filter(Boolean)))
     
     const createdTags = await Promise.all(
       uniqueTags.map((tag: string) =>

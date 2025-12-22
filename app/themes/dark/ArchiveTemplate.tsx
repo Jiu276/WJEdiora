@@ -1,8 +1,9 @@
-﻿'use client'
+'use client'
 
 import { Card, Row, Col, Typography, List, Tag, Empty, Skeleton, Space } from 'antd'
 import { CalendarOutlined, FileTextOutlined } from '@ant-design/icons'
 import Link from 'next/link'
+import BackToTop from '@/components/BackToTop'
 import type { ThemeConfig } from '@/lib/themeLoader'
 
 const { Title } = Typography
@@ -10,7 +11,6 @@ const { Title } = Typography
 interface Article {
   id: string
   title: string
-  slug: string
   excerpt: string | null
   publishDate: string | null
   category?: {
@@ -32,14 +32,27 @@ interface ArchiveTemplateProps {
   config: ThemeConfig
 }
 
-export default function MagazineArchiveTemplate({
+export default function DarkArchiveTemplate({
   loading,
   archiveGroups,
   yearStats,
   config,
 }: ArchiveTemplateProps) {
   const getMonthName = (month: number) => {
-    const months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ]
     return months[month - 1]
   }
 
@@ -49,15 +62,15 @@ export default function MagazineArchiveTemplate({
         <div
           style={{
             background: config.colors.cardBackground,
-            borderBottom: `2px solid ${config.colors.primary}`,
-            padding: '20px 0',
+            borderBottom: `1px solid ${config.colors.border}`,
+            padding: '16px 0',
           }}
         >
-          <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 24px' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
             <Skeleton.Input active size="large" style={{ width: 200 }} />
           </div>
         </div>
-        <div style={{ maxWidth: 1400, margin: '0 auto', padding: '48px 24px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '48px 24px' }}>
           <Skeleton active paragraph={{ rows: 10 }} />
         </div>
       </div>
@@ -66,58 +79,50 @@ export default function MagazineArchiveTemplate({
 
   return (
     <div style={{ minHeight: '100vh', background: config.colors.background }}>
-      {/* 头部导航 */}
-      <header
+      {/* Header */}
+      <div
         style={{
           background: config.colors.cardBackground,
-          borderBottom: `2px solid ${config.colors.primary}`,
-          padding: '20px 0',
-          position: 'sticky',
-          top: 0,
-          zIndex: 100,
-          boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+          borderBottom: `1px solid ${config.colors.border}`,
+          padding: '16px 0',
         }}
       >
-        <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Link href="/" style={{ textDecoration: 'none' }}>
-              <Title level={2} style={{ margin: 0, color: config.colors.primary, fontWeight: 700 }}>
-                Ediora
-              </Title>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link href="/" style={{ fontSize: '20px', fontWeight: 'bold', color: config.colors.primary, textDecoration: 'none' }}>
+            Ediora
+          </Link>
+          <div>
+            <Link href="/blog" style={{ marginRight: 16, color: config.colors.subtext, textDecoration: 'none' }}>
+              Articles
             </Link>
-            <div>
-              <Link href="/blog" style={{ marginRight: 24, color: config.colors.text, textDecoration: 'none', fontWeight: 500 }}>
-                文章列表
-              </Link>
-              <Link href="/archive" style={{ marginRight: 24, color: config.colors.primary, textDecoration: 'none', fontWeight: 500 }}>
-                归档
-              </Link>
-              <Link href="/admin" style={{ color: config.colors.subtext, textDecoration: 'none' }}>
-                管理
-              </Link>
-            </div>
+            <Link href="/archive" style={{ color: config.colors.primary, textDecoration: 'none' }}>
+              Archive
+            </Link>
+            <Link href="/admin" style={{ marginLeft: 16, color: config.colors.subtext, textDecoration: 'none' }}>
+              Admin
+            </Link>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* 主内容区 */}
-      <div style={{ maxWidth: 1400, margin: '0 auto', padding: '40px 24px' }}>
+      {/* Main content */}
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '48px 24px' }}>
         <Title level={1} style={{ textAlign: 'center', marginBottom: 48, color: config.colors.text }}>
           <CalendarOutlined style={{ marginRight: 8 }} />
-          文章归档
+          Archive
         </Title>
 
-        {/* 年度统计 */}
+        {/* Yearly stats */}
         {yearStats.size > 0 && (
           <Card
             style={{
-              marginBottom: 40,
+              marginBottom: 32,
               background: config.colors.cardBackground,
               borderColor: config.colors.border,
             }}
           >
-            <Title level={4} style={{ marginBottom: 20, color: config.colors.text }}>
-              年度统计
+            <Title level={4} style={{ marginBottom: 16, color: config.colors.text }}>
+              Yearly stats
             </Title>
             <Row gutter={[16, 16]}>
               {Array.from(yearStats.entries())
@@ -137,11 +142,11 @@ export default function MagazineArchiveTemplate({
                         element?.scrollIntoView({ behavior: 'smooth' })
                       }}
                     >
-                      <div style={{ fontSize: '28px', fontWeight: 700, color: config.colors.primary }}>
+                      <div style={{ fontSize: '24px', fontWeight: 'bold', color: config.colors.primary }}>
                         {year}
                       </div>
-                      <div style={{ color: config.colors.subtext, marginTop: 8, fontSize: 14 }}>
-                        {count} 篇
+                      <div style={{ color: config.colors.subtext, marginTop: 8 }}>
+                        {count} articles
                       </div>
                     </Card>
                   </Col>
@@ -150,9 +155,9 @@ export default function MagazineArchiveTemplate({
           </Card>
         )}
 
-        {/* 归档列表 */}
+        {/* Archive list */}
         {archiveGroups.length === 0 ? (
-          <Empty description="暂无已发布的文章" />
+          <Empty description="No published articles" />
         ) : (
           <div>
             {archiveGroups.map((group, index) => {
@@ -164,31 +169,28 @@ export default function MagazineArchiveTemplate({
                     <Title
                       level={2}
                       style={{
-                        marginTop: index > 0 ? 60 : 0,
-                        marginBottom: 32,
+                        marginTop: index > 0 ? 48 : 0,
+                        marginBottom: 24,
                         color: config.colors.text,
-                        fontSize: 36,
-                        fontWeight: 700,
                       }}
                     >
-                      {group.year} 年
+                      {group.year}
                     </Title>
                   )}
                   <Card
                     style={{
-                      marginBottom: 32,
+                      marginBottom: 24,
                       background: config.colors.cardBackground,
                       borderColor: config.colors.border,
-                      borderRadius: 12,
                     }}
                     title={
                       <Space>
                         <CalendarOutlined />
-                        <span style={{ color: config.colors.text, fontWeight: 600 }}>
-                          {group.year} 年 {getMonthName(group.month)}
+                        <span style={{ color: config.colors.text }}>
+                          {group.year} {getMonthName(group.month)}
                         </span>
-                        <Tag color={config.colors.primary} style={{ fontSize: 12 }}>
-                          {group.articles.length} 篇
+                        <Tag color={config.colors.primary}>
+                          {group.articles.length} articles
                         </Tag>
                       </Space>
                     }
@@ -202,7 +204,7 @@ export default function MagazineArchiveTemplate({
                             title={
                               <Link
                                 href={`/blog/${article.id}`}
-                                style={{ fontSize: '16px', color: config.colors.text, textDecoration: 'none', fontWeight: 500 }}
+                                style={{ fontSize: '16px', color: config.colors.text, textDecoration: 'none' }}
                               >
                                 {article.title}
                               </Link>
@@ -210,13 +212,18 @@ export default function MagazineArchiveTemplate({
                             description={
                               <Space>
                                 {article.category && (
-                                  <Tag color={config.colors.primary} style={{ fontSize: 12 }}>
-                                    {article.category.name}
-                                  </Tag>
+                                  <Tag color={config.colors.primary}>{article.category.name}</Tag>
                                 )}
                                 {article.publishDate && (
                                   <span style={{ color: config.colors.subtext, fontSize: '12px' }}>
-                                    {new Date(article.publishDate).toLocaleDateString('zh-CN')}
+                                    {new Date(article.publishDate).toLocaleDateString('en-US')}
+                                  </span>
+                                )}
+                                {article.excerpt && (
+                                  <span style={{ color: config.colors.subtext }}>
+                                    {article.excerpt.length > 100
+                                      ? article.excerpt.substring(0, 100) + '...'
+                                      : article.excerpt}
                                   </span>
                                 )}
                               </Space>
@@ -233,22 +240,20 @@ export default function MagazineArchiveTemplate({
         )}
       </div>
 
-      {/* 页脚 */}
-      <footer
+      {/* Footer */}
+      <div
         style={{
+          textAlign: 'center',
+          padding: '48px 24px',
+          color: config.colors.subtext,
           background: config.colors.cardBackground,
-          borderTop: `2px solid ${config.colors.primary}`,
-          padding: '40px 0',
-          marginTop: 80,
+          marginTop: 48,
         }}
       >
-        <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
-          <div style={{ color: config.colors.subtext, fontSize: 14 }}>
-            © {new Date().getFullYear()} Ediora. All rights reserved.
-          </div>
-        </div>
-      </footer>
+        <p>© {new Date().getFullYear()} Ediora. All rights reserved.</p>
+      </div>
+
+      <BackToTop color={config.colors.primary} />
     </div>
   )
 }
-

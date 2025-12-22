@@ -52,6 +52,7 @@ export function showNotification(
 ) {
   notification[type]({
     message: title,
+    title: title,
     description,
     placement,
     duration,

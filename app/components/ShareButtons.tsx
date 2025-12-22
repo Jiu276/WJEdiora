@@ -16,24 +16,24 @@ interface ShareButtonsProps {
   image?: string
 }
 
-export default function ShareButtons({ title, url, description, image }: ShareButtonsProps) {
+export default function ShareButtons({ title, url, description, image: _image }: ShareButtonsProps) {
   const fullUrl = typeof window !== 'undefined' ? `${window.location.origin}${url}` : url
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(fullUrl)
-      message.success('链接已复制到剪贴板')
-    } catch (error) {
-      // 降级方案
+      message.success('Link copied to clipboard')
+    } catch {
+      // Fallback for older browsers
       const textArea = document.createElement('textarea')
       textArea.value = fullUrl
       document.body.appendChild(textArea)
       textArea.select()
       try {
         document.execCommand('copy')
-        message.success('链接已复制到剪贴板')
-      } catch (err) {
-        message.error('复制失败，请手动复制')
+        message.success('Link copied to clipboard')
+      } catch {
+        message.error('Copy failed, please copy manually')
       }
       document.body.removeChild(textArea)
     }
@@ -45,8 +45,8 @@ export default function ShareButtons({ title, url, description, image }: ShareBu
   }
 
   const handleWechat = () => {
-    message.info('请使用微信扫描二维码分享')
-    // 这里可以集成二维码生成库
+    message.info('Please use WeChat to scan the QR code to share')
+    // You can integrate a QR code generator library here
   }
 
   const handleQQ = () => {
@@ -55,14 +55,14 @@ export default function ShareButtons({ title, url, description, image }: ShareBu
   }
 
   const handleNativeShare = async () => {
-    if (navigator.share) {
+    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
       try {
         await navigator.share({
           title,
           text: description,
           url: fullUrl,
         })
-      } catch (error) {
+      } catch {
         // 用户取消分享
       }
     } else {
@@ -70,15 +70,17 @@ export default function ShareButtons({ title, url, description, image }: ShareBu
     }
   }
 
+  const canUseNativeShare = typeof navigator !== 'undefined' && typeof navigator.share === 'function'
+
   return (
     <Space size="small" wrap>
-      {navigator.share && (
+      {canUseNativeShare && (
         <Button
           icon={<ShareAltOutlined />}
           onClick={handleNativeShare}
           size="small"
         >
-          分享
+          Share
         </Button>
       )}
       <Button
@@ -87,7 +89,7 @@ export default function ShareButtons({ title, url, description, image }: ShareBu
         size="small"
         style={{ color: '#e6162d' }}
       >
-        微博
+        Weibo
       </Button>
       <Button
         icon={<WechatOutlined />}
@@ -95,7 +97,7 @@ export default function ShareButtons({ title, url, description, image }: ShareBu
         size="small"
         style={{ color: '#07c160' }}
       >
-        微信
+        WeChat
       </Button>
       <Button
         icon={<QqOutlined />}
@@ -110,7 +112,7 @@ export default function ShareButtons({ title, url, description, image }: ShareBu
         onClick={handleCopy}
         size="small"
       >
-        复制链接
+        Copy link
       </Button>
     </Space>
   )

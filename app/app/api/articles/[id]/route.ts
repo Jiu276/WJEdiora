@@ -58,7 +58,7 @@ export async function PUT(
       metaTitle,
       metaDescription,
       metaKeywords,
-      createVersion = false, // 版本快照功能暂不使用
+      createVersion: _createVersion = false, // 版本快照功能暂不使用
     } = body
 
     // 读取当前文章，供后续自动补全字段使用
@@ -70,7 +70,7 @@ export async function PUT(
     }
     
     // 如果标题改变，更新 slug（确保唯一性）
-    let slugUpdate: { slug?: string } = {}
+    const slugUpdate: { slug?: string } = {}
     if (title) {
       let baseSlug = generateSlug(title)
       

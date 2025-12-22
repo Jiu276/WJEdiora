@@ -42,11 +42,11 @@ export default class ErrorBoundary extends Component<Props, State> {
       return (
         <Result
           status="500"
-          title="页面加载出错"
-          subTitle={this.state.error?.message || '抱歉，页面出现了一些问题'}
+          title="Page load error"
+          subTitle={this.state.error?.message || 'Sorry, something went wrong on this page.'}
           extra={
             <Button type="primary" icon={<ReloadOutlined />} onClick={this.handleReset}>
-              重新加载
+              Reload
             </Button>
           }
         />

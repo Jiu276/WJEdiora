@@ -1,6 +1,6 @@
 'use client'
 
-import { Layout, Menu, Button, Drawer, Dropdown, Space } from 'antd'
+import { Layout, Menu, Button, Drawer, Dropdown } from 'antd'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import {
@@ -29,7 +29,7 @@ interface AdminUser {
   role: string
 }
 
-export function AdminLayoutContent({ children }: { children: React.ReactNode }) {
+function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
   const [isMobile, setIsMobile] = useState(false)

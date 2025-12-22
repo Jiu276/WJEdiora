@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { Input, Button, Card, Row, Col, Typography, Tag, Space, List } from 'antd'
@@ -211,7 +211,7 @@ export default function MinimalLifestyleHomeTemplate({ articles, config, searchK
                 <Col xs={24} md={8} key={article.id}>
                   <Card
                     hoverable
-                    onClick={() => window.location.href = `/blog/${article.slug || article.id}`}
+                    onClick={() => window.location.href = `/blog/${article.id}`}
                     style={{
                       background: '#fff',
                       border: 'none',
@@ -254,7 +254,7 @@ export default function MinimalLifestyleHomeTemplate({ articles, config, searchK
                           {new Date(article.publishDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
                         </Text>
                       )}
-                      <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Title
                           level={4}
                           style={{
@@ -274,7 +274,7 @@ export default function MinimalLifestyleHomeTemplate({ articles, config, searchK
                           {article.title}
                         </Title>
                       </Link>
-                      <Link href={`/blog/${article.slug || article.id}`} style={{ marginTop: 16, display: 'inline-block' }}>
+                      <Link href={`/blog/${article.id}`} style={{ marginTop: 16, display: 'inline-block' }}>
                         <Text style={{ fontSize: 12, color: '#d4a574', textTransform: 'uppercase', letterSpacing: '1px' }}>
                           EXPLORE <RightOutlined style={{ fontSize: 10 }} />
                         </Text>
@@ -301,7 +301,7 @@ export default function MinimalLifestyleHomeTemplate({ articles, config, searchK
                 <Col xs={24} sm={12} md={8} key={article.id}>
                   <Card
                     hoverable
-                    onClick={() => window.location.href = `/blog/${article.slug || article.id}`}
+                    onClick={() => window.location.href = `/blog/${article.id}`}
                     style={{
                       background: '#fff',
                       border: 'none',
@@ -355,7 +355,7 @@ export default function MinimalLifestyleHomeTemplate({ articles, config, searchK
                           {article.category.name.toUpperCase()}
                         </Tag>
                       )}
-                      <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Title
                           level={5}
                           style={{

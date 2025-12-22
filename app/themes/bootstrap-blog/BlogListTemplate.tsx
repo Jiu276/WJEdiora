@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Card, Row, Col, Typography, Empty, Skeleton, Pagination, Tag, Space, Input } from 'antd'
@@ -121,7 +121,7 @@ export default function BlogListTemplate({
             <Row gutter={[32, 32]}>
               {filteredArticles.map((article) => (
                 <Col xs={24} sm={12} lg={8} key={article.id}>
-                  <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Card
                       hoverable
                       style={{

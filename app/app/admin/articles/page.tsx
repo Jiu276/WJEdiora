@@ -16,7 +16,6 @@ import {
   Checkbox,
   Skeleton,
   Modal,
-  Progress,
   Badge,
   Statistic,
 } from 'antd'
@@ -31,7 +30,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ColumnsType } from 'antd/es/table'
-import dayjs, { Dayjs } from 'dayjs'
+import type { Dayjs } from 'dayjs'
 import PublishWizard from '@/components/PublishWizard'
 
 const { RangePicker } = DatePicker
@@ -41,7 +40,7 @@ const DEFAULT_ARTICLE_PROMPT = `请用英文撰写正文。根据选中的标题
 
 https://www.wildoakboutique.com/ 
 
-这个网站写的，图片使用与文章内容相符合，避免直接用AI稿，要加工得有“人味儿”，有真情实感。避免只堆Banner，要有广告软植入。`
+这个网站写的，图片使用与文章内容相符合，避免直接用AI稿，要加工得有"人味儿"，有真情实感。避免只堆Banner，要有广告软植入。`
 
 interface Article {
   id: string
@@ -75,21 +74,22 @@ export default function ArticlesPage() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   
   // 选项数据
-  const [categories, setCategories] = useState<any[]>([])
-  const [articleTitles, setArticleTitles] = useState<any[]>([])
+  const [categories, setCategories] = useState<Array<{ id: string; name: string }>>([])
+  const [articleTitles, setArticleTitles] = useState<Array<{ id: string; name: string }>>([])
   
   // 生成的标题管理
-  const [generatedTitles, setGeneratedTitles] = useState<any[]>([])
-  const [savedTitles, setSavedTitles] = useState<any[]>([]) // 从数据库加载的已保存标题
+  type TitleItem = { id: string; title: string; score?: number }
+  const [generatedTitles, setGeneratedTitles] = useState<TitleItem[]>([])
+  const [savedTitles, setSavedTitles] = useState<TitleItem[]>([]) // 从数据库加载的已保存标题
   const [selectedTitleIds, setSelectedTitleIds] = useState<string[]>([]) // 新生成标题的选择
   const [selectedSavedTitleIds, setSelectedSavedTitleIds] = useState<string[]>([]) // 已保存标题的选择
   const [showPublishWizard, setShowPublishWizard] = useState(false)
   const [generatingArticles, setGeneratingArticles] = useState(false)
   const [loadingSavedTitles, setLoadingSavedTitles] = useState(false)
-  const [generationProgress, setGenerationProgress] = useState<{ current: number; total: number } | null>(null)
   const [quickArticlePrompt, setQuickArticlePrompt] = useState<string>(DEFAULT_ARTICLE_PROMPT)
   const [quickGenerateVisible, setQuickGenerateVisible] = useState(false)
-  const [pendingGenerateTitles, setPendingGenerateTitles] = useState<any[]>([])
+  const [pendingGenerateTitles, setPendingGenerateTitles] = useState<TitleItem[]>([])
+  const [_generationProgress, setGenerationProgress] = useState<{ current: number; total: number } | null>(null)
 
   useEffect(() => {
     fetchArticles()
@@ -159,7 +159,7 @@ export default function ArticlesPage() {
       const res = await fetch(`/api/articles?${params.toString()}`)
       const data = await res.json()
       setArticles(data)
-    } catch (error) {
+    } catch {
       message.error('加载文章失败')
     } finally {
       setLoading(false)
@@ -178,7 +178,7 @@ export default function ArticlesPage() {
       } else {
         message.error('删除失败')
       }
-    } catch (error) {
+    } catch {
       message.error('删除失败')
     }
   }
@@ -197,7 +197,7 @@ export default function ArticlesPage() {
       message.success(`成功删除 ${selectedRowKeys.length} 篇文章`)
       setSelectedRowKeys([])
       fetchArticles()
-    } catch (error) {
+    } catch {
       message.error('批量删除失败')
     }
   }
@@ -236,7 +236,7 @@ export default function ArticlesPage() {
       }
       setSelectedRowKeys([])
       fetchArticles()
-    } catch (error) {
+    } catch {
       message.error('批量更新失败')
     }
   }
@@ -320,10 +320,14 @@ export default function ArticlesPage() {
       dataIndex: 'viewCount',
       key: 'viewCount',
       render: (_, record) => {
-        const count = (record as any)?.viewCount || 0
+        const count = (record as { viewCount?: number })?.viewCount || 0
         return count
       },
-      sorter: (a, b) => (((a as any)?.viewCount || 0) - ((b as any)?.viewCount || 0)),
+      sorter: (a, b) => {
+        const aCount = (a as { viewCount?: number })?.viewCount || 0
+        const bCount = (b as { viewCount?: number })?.viewCount || 0
+        return aCount - bCount
+      },
     },
     {
       title: '创建时间',
@@ -359,7 +363,7 @@ export default function ArticlesPage() {
   ]
 
   // 处理标题生成回调
-  const handleTitlesGenerated = (titles: any[]) => {
+  const handleTitlesGenerated = (titles: Array<{ id: string; title: string; score?: number }>) => {
     setGeneratedTitles(titles)
     setSelectedTitleIds([])
     setSelectedSavedTitleIds([]) // 清空已保存标题的选择
@@ -369,7 +373,7 @@ export default function ArticlesPage() {
   }
 
   // 从标题列表批量生成文章（通用函数）
-  const handleBatchGenerateArticlesFromTitles = async (titlesToGenerate: any[]) => {
+  const handleBatchGenerateArticlesFromTitles = async (titlesToGenerate: Array<{ id: string; name: string }>) => {
     if (titlesToGenerate.length === 0) {
       message.warning('请至少选择一个标题')
       return
@@ -392,7 +396,7 @@ export default function ArticlesPage() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              title: titleObj.title,
+              title: titleObj.name,
               prompt: effectivePrompt,
             }),
           })
@@ -420,7 +424,7 @@ export default function ArticlesPage() {
           const imagesRes = await fetch('/api/auto-images', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: titleObj.title }),
+            body: JSON.stringify({ title: titleObj.name }),
           })
           const imagesData = await imagesRes.json()
 
@@ -445,9 +449,9 @@ export default function ArticlesPage() {
 
               const partImages = selectedImagesData.slice(imageIndex, imageIndex + imagesPerPart)
               if (partImages.length > 0) {
-                const imageHtml = partImages.map((img: any) => {
+                const imageHtml = partImages.map((img: { url: string; description?: string }) => {
                   return `<figure style="margin: 30px 0; text-align: center;">
-                    <img src="${img.url}" alt="${img.description || titleObj.title}" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />
+                    <img src="${img.url}" alt="${img.description || titleObj.name}" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />
                     ${img.description ? `<figcaption style="margin-top: 12px; color: #666; font-size: 14px; font-style: italic;">${img.description}</figcaption>` : ''}
                   </figure>`
                 }).join('\n')
@@ -466,7 +470,7 @@ export default function ArticlesPage() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              title: titleObj.title,
+              title: titleObj.name,
               content: finalContent,
               excerpt: finalContent.replace(/<[^>]*>/g, '').substring(0, 200) + '...',
               categoryId: null,
@@ -485,7 +489,7 @@ export default function ArticlesPage() {
           }
         } catch (error) {
           failCount++
-          console.error(`生成文章失败: ${titleObj.title}`, error)
+          console.error(`生成文章失败: ${titleObj.name}`, error)
         }
       }
 
@@ -500,9 +504,8 @@ export default function ArticlesPage() {
       fetchArticles()
       // 刷新已保存的标题列表
       fetchSavedTitles()
-    } catch (error) {
+    } catch {
       message.error('批量生成文章失败')
-      setGenerationProgress(null)
     } finally {
       setGeneratingArticles(false)
     }
@@ -643,12 +646,12 @@ export default function ArticlesPage() {
                   >
                     {title.title}
                   </Checkbox>
-                  {title.score > 0 && (
+                  {(title.score ?? 0) > 0 && (
                     <div style={{ marginTop: 8 }}>
                       <Badge 
-                        count={`推荐度: ${title.score}%`} 
+                        count={`推荐度: ${title.score ?? 0}%`} 
                         style={{ 
-                          backgroundColor: title.score >= 90 ? '#52c41a' : title.score >= 80 ? '#1890ff' : '#faad14' 
+                          backgroundColor: (title.score ?? 0) >= 90 ? '#52c41a' : (title.score ?? 0) >= 80 ? '#1890ff' : '#faad14' 
                         }}
                       />
                     </div>
@@ -745,12 +748,12 @@ export default function ArticlesPage() {
                   >
                     {title.title}
                   </Checkbox>
-                  {title.score > 0 && (
+                  {(title.score ?? 0) > 0 && (
                     <div style={{ marginTop: 8 }}>
                       <Badge 
-                        count={`推荐度: ${title.score}%`} 
+                        count={`推荐度: ${title.score ?? 0}%`} 
                         style={{ 
-                          backgroundColor: title.score >= 90 ? '#52c41a' : title.score >= 80 ? '#1890ff' : '#faad14' 
+                          backgroundColor: (title.score ?? 0) >= 90 ? '#52c41a' : (title.score ?? 0) >= 80 ? '#1890ff' : '#faad14' 
                         }}
                       />
                     </div>
@@ -918,7 +921,7 @@ export default function ArticlesPage() {
             message.warning('请至少选择一个标题')
             return
           }
-          await handleBatchGenerateArticlesFromTitles(pendingGenerateTitles)
+          await handleBatchGenerateArticlesFromTitles(pendingGenerateTitles.map(t => ({ id: t.id, name: t.title })))
           setQuickGenerateVisible(false)
           setPendingGenerateTitles([])
         }}
@@ -945,4 +948,3 @@ export default function ArticlesPage() {
     </div>
   )
 }
-

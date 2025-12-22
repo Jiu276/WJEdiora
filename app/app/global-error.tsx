@@ -16,7 +16,7 @@ export default function GlobalError({
   }, [error])
 
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body>
         <div
           style={{
@@ -30,14 +30,14 @@ export default function GlobalError({
         >
           <Result
             status="error"
-            title="应用加载出错"
-            subTitle="抱歉，应用遇到了一个严重错误。请尝试刷新页面。"
+            title="Application load error"
+            subTitle="Sorry, the application encountered a critical error. Please try refreshing the page."
             extra={[
               <Button type="primary" key="reload" icon={<ReloadOutlined />} onClick={reset}>
-                重试
+                Retry
               </Button>,
               <Button key="home" icon={<HomeOutlined />} onClick={() => (window.location.href = '/')}>
-                返回首页
+                Back to Home
               </Button>,
             ]}
           />

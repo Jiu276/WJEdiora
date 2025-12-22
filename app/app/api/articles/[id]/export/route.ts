@@ -59,7 +59,7 @@ export async function GET(
     markdown += `---\n\n`
 
     // 转换 HTML 内容为 Markdown（简单转换）
-    let content = article.content
+    const content = article.content
       // 移除 HTML 标签（简单处理）
       .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n\n')
       .replace(/<h2[^>]*>(.*?)<\/h2>/gi, '## $1\n\n')

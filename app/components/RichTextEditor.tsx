@@ -8,7 +8,6 @@ import { Button, Space } from 'antd'
 import {
   BoldOutlined,
   ItalicOutlined,
-  UnderlineOutlined,
   StrikethroughOutlined,
   OrderedListOutlined,
   UnorderedListOutlined,
@@ -25,7 +24,7 @@ interface RichTextEditorProps {
 export default function RichTextEditor({
   content,
   onChange,
-  placeholder = '请输入内容...',
+  placeholder: _placeholder = '请输入内容...',
 }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [

@@ -91,7 +91,7 @@ export function generateMetaKeywords(
   keywords.push(...titleWords)
   
   // 去重并限制数量
-  const uniqueKeywords = [...new Set(keywords)].slice(0, 10)
+  const uniqueKeywords = Array.from(new Set(keywords)).slice(0, 10)
   
   return uniqueKeywords.join(', ')
 }

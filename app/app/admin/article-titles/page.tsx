@@ -279,7 +279,7 @@ export default function ArticleTitlesPage() {
       message.success(`成功删除 ${selectedSavedTitleIds.length} 个标题`)
       setSelectedSavedTitleIds([])
       fetchSavedTitles()
-    } catch (error) {
+    } catch {
       message.error('批量删除失败')
     }
   }
@@ -487,13 +487,13 @@ export default function ArticleTitlesPage() {
                   <Progress
                     percent={generationProgress.percentage}
                     status={generating ? 'active' : 'success'}
-                    format={(percent) => `${generationProgress.current}/${generationProgress.total}`}
+                    format={() => `${generationProgress.current}/${generationProgress.total}`}
                   />
                 </div>
               )}
             </Space>
             <div style={{ marginTop: 8, fontSize: '12px', color: '#999' }}>
-              💡 提示：如果 AI 生成失败（网络问题），可以使用"模板生成"作为备选方案
+              💡 提示：如果 AI 生成失败（网络问题），可以使用&ldquo;模板生成&rdquo;作为备选方案
             </div>
           </Form.Item>
         </Form>
@@ -610,7 +610,7 @@ export default function ArticleTitlesPage() {
                 <strong>已选择 {selectedTitleIds.length} 个标题</strong>
               </p>
               <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>
-                您可以点击"保存到数据库"按钮将这些标题保存，然后在"文章管理"页面使用它们批量生成文章
+                您可以点击&ldquo;保存到数据库&rdquo;按钮将这些标题保存，然后在&ldquo;文章管理&rdquo;页面使用它们批量生成文章
               </p>
             </div>
           )}
@@ -622,7 +622,7 @@ export default function ArticleTitlesPage() {
         <Card>
           <div style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
             <p>暂无生成的标题</p>
-            <p style={{ fontSize: '14px' }}>请在上方输入提示词并点击"生成标题"按钮</p>
+            <p style={{ fontSize: '14px' }}>请在上方输入提示词并点击&ldquo;生成标题&rdquo;按钮</p>
           </div>
         </Card>
       )}
@@ -633,7 +633,7 @@ export default function ArticleTitlesPage() {
           <div style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
             <p>👆 在上方输入提示词开始生成标题</p>
             <p style={{ fontSize: '14px', marginTop: 8 }}>
-              例如："如何提升工作效率"、"健康饮食指南"、"旅行攻略"等
+              例如：&ldquo;如何提升工作效率&rdquo;、&ldquo;健康饮食指南&rdquo;、&ldquo;旅行攻略&rdquo;等
             </p>
           </div>
         </Card>
@@ -793,7 +793,7 @@ export default function ArticleTitlesPage() {
                     <strong>已选择 {selectedSavedTitleIds.length} 个标题</strong>
                   </p>
                   <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>
-                    您可以在"文章管理"页面使用这些标题批量生成文章
+                    您可以在&ldquo;文章管理&rdquo;页面使用这些标题批量生成文章
                   </p>
                 </div>
               )}
@@ -809,7 +809,7 @@ export default function ArticleTitlesPage() {
             <div style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
               <p>暂无已保存的标题</p>
               <p style={{ fontSize: '14px' }}>
-                请在"生成标题"标签页生成并保存标题
+                请在&ldquo;生成标题&rdquo;标签页生成并保存标题
               </p>
             </div>
           )}

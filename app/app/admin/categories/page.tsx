@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Card, Form, Input, Button, Space, message, Popconfirm, Row, Col } from 'antd'
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 
 const { TextArea } = Input
 
@@ -15,7 +15,7 @@ interface Category {
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState(true)
+  const [, setLoading] = useState(true)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [form] = Form.useForm()
 
@@ -29,14 +29,14 @@ export default function CategoriesPage() {
       const res = await fetch('/api/categories')
       const data = await res.json()
       setCategories(data)
-    } catch (error) {
+    } catch {
       message.error('加载失败')
     } finally {
       setLoading(false)
     }
   }
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: { name: string; slug: string; description?: string }) => {
     try {
       if (editingId) {
         const res = await fetch(`/api/categories/${editingId}`, {
@@ -66,7 +66,7 @@ export default function CategoriesPage() {
           message.error('创建失败')
         }
       }
-    } catch (error) {
+    } catch {
       message.error('操作失败')
     }
   }
@@ -87,7 +87,7 @@ export default function CategoriesPage() {
       } else {
         message.error('删除失败')
       }
-    } catch (error) {
+    } catch {
       message.error('删除失败')
     }
   }

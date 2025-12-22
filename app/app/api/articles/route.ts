@@ -5,7 +5,7 @@ import {
   generateMetaDescription,
   generateMetaKeywords,
 } from '@/lib/seo'
-import { generateSlug, ensureUniqueSlug } from '@/lib/slug'
+import { generateSlug } from '@/lib/slug'
 import { autoMatchTags, createArticleTags, createArticleTagsFromMatch } from '@/lib/autoTags'
 import { getCurrentUser } from '@/lib/auth'
 

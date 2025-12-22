@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Typography, List, Tag, Empty, Skeleton, Space } from 'antd'
 import { CalendarOutlined, FileTextOutlined } from '@ant-design/icons'
@@ -160,7 +160,7 @@ export default function MinimalArchiveTemplate({
                       {group.articles.map((article) => (
                         <Link
                           key={article.id}
-                          href={`/blog/${article.slug}`}
+                          href={`/blog/${article.id}`}
                           style={{ textDecoration: 'none', color: 'inherit' }}
                         >
                           <div

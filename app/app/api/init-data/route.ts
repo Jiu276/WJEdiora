@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 // POST /api/init-data - 初始化数据库预设数据
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     // 检查 Prisma Client 是否可用
     if (!prisma || !prisma.category) {

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Typography, Empty, Skeleton, Pagination, Tag, Space } from 'antd'
 import { CalendarOutlined } from '@ant-design/icons'
@@ -90,7 +90,7 @@ export default function MinimalBlogListTemplate({
             {articles.map((article) => (
               <article key={article.id} style={{ borderBottom: `1px solid ${config.colors.border}`, paddingBottom: 40 }}>
                 <Link
-                  href={`/blog/${article.slug || article.id}`}
+                  href={`/blog/${article.id}`}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
                   <Title

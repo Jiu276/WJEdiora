@@ -22,13 +22,13 @@ export default function ErrorFallback({ error, resetErrorBoundary }: ErrorFallba
     >
       <Result
         status="error"
-        title="页面加载出错"
+        title="Page load error"
         subTitle={
           <div>
-            <p>抱歉，页面遇到了一个错误。请尝试刷新页面或返回首页。</p>
+            <p>Sorry, the page encountered an error. Please try refreshing or return to the homepage.</p>
             {process.env.NODE_ENV === 'development' && (
               <details style={{ marginTop: 16, textAlign: 'left' }}>
-                <summary style={{ cursor: 'pointer', color: '#1890ff' }}>错误详情（开发模式）</summary>
+                <summary style={{ cursor: 'pointer', color: '#1890ff' }}>Error details (development mode)</summary>
                 <pre
                   style={{
                     marginTop: 8,
@@ -47,10 +47,10 @@ export default function ErrorFallback({ error, resetErrorBoundary }: ErrorFallba
         }
         extra={[
           <Button type="primary" key="reload" icon={<ReloadOutlined />} onClick={resetErrorBoundary}>
-            重试
+            Retry
           </Button>,
           <Button key="home" icon={<HomeOutlined />} onClick={() => (window.location.href = '/')}>
-            返回首页
+            Back to Home
           </Button>,
         ]}
       />

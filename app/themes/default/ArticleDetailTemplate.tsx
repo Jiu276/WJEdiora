@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -198,7 +198,7 @@ export default function ArticleDetailTemplate({
             </Typography.Text>
             <ShareButtons
               title={article.title}
-              url={`/blog/${article.slug || article.id}`}
+              url={`/blog/${article.id}`}
               description={article.excerpt || undefined}
               image={article.featuredImage || undefined}
             />
@@ -278,7 +278,7 @@ export default function ArticleDetailTemplate({
                         </div>
                       )
                     }
-                    onClick={() => router.push(`/blog/${related.slug}`)}
+                    onClick={() => router.push(`/blog/${related.id}`)}
                     style={{ cursor: 'pointer', height: '100%', background: config.colors.cardBackground, borderColor: config.colors.border }}
                   >
                     <Card.Meta

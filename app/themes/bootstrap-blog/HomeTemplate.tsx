@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { Input, Button } from 'antd'
@@ -158,7 +158,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32 }}>
               {featuredArticles.map((article) => (
                 <article key={article.id} style={{ background: '#fff', borderRadius: 8, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
-                  <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     {article.featuredImage && (
                       <div style={{ height: 250, overflow: 'hidden' }}>
                         <LazyImage
@@ -247,7 +247,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32 }}>
               {latestArticles.map((article) => (
                 <article key={article.id} style={{ background: '#fff' }}>
-                  <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     {article.featuredImage && (
                       <div style={{ height: 200, overflow: 'hidden', marginBottom: 16, borderRadius: 8 }}>
                         <LazyImage
@@ -355,7 +355,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                 {filteredArticles.slice(0, 3).map((article) => (
                   <Link
                     key={article.id}
-                    href={`/blog/${article.slug || article.id}`}
+                    href={`/blog/${article.id}`}
                     style={{ display: 'flex', gap: 12, textDecoration: 'none', color: '#999' }}
                   >
                     {article.featuredImage && (

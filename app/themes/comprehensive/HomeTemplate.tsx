@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { Input, Button, Card, Row, Col, Typography, Tag, Space, Divider } from 'antd'
@@ -75,11 +75,11 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
             Ediora
           </Link>
           <nav style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-            <Link href="/" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px', fontWeight: 500 }}>首页</Link>
-            <Link href="/blog" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>文章</Link>
-            <Link href="/archive" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>归档</Link>
+            <Link href="/" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px', fontWeight: 500 }}>Home</Link>
+            <Link href="/blog" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>Articles</Link>
+            <Link href="/archive" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>Archive</Link>
             <Search
-              placeholder="搜索文章..."
+              placeholder="Search articles..."
               onSearch={handleSearch}
               style={{ width: 250 }}
               allowClear
@@ -171,7 +171,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                       <span><EyeOutlined style={{ marginRight: 4 }} />{featuredArticle.viewCount}</span>
                     )}
                   </Space>
-                  <Link href={`/blog/${featuredArticle.slug || featuredArticle.id}`}>
+                  <Link href={`/blog/${featuredArticle.id}`}>
                     <Button
                       type="primary"
                       size="large"
@@ -213,7 +213,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                 <Col xs={24} sm={12} lg={8} key={article.id}>
                   <Card
                     hoverable
-                    onClick={() => window.location.href = `/blog/${article.slug || article.id}`}
+                    onClick={() => window.location.href = `/blog/${article.id}`}
                     className="fade-in"
                     style={{
                       height: '100%',
@@ -265,7 +265,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                           {article.category.name}
                         </Tag>
                       )}
-                      <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Title
                           level={4}
                           style={{
@@ -330,7 +330,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                 <Col xs={24} key={article.id}>
                   <Card
                     hoverable
-                    onClick={() => window.location.href = `/blog/${article.slug || article.id}`}
+                    onClick={() => window.location.href = `/blog/${article.id}`}
                     className="fade-in"
                     style={{
                       borderRadius: 8,
@@ -364,7 +364,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                               {article.category.name}
                             </Tag>
                           )}
-                          <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                          <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             <Title
                               level={4}
                               style={{
@@ -455,13 +455,13 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
               </Title>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <Link href="/" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14 }}>
-                  首页
+                  Home
                 </Link>
                 <Link href="/blog" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14 }}>
-                  文章列表
+                  Articles
                 </Link>
                 <Link href="/archive" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: 14 }}>
-                  文章归档
+                  Archive
                 </Link>
               </div>
             </Col>

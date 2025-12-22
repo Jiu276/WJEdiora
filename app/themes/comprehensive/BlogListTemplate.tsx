@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Card, Row, Col, Typography, Empty, Skeleton, Pagination, Tag, Space, Input } from 'antd'
 import { CalendarOutlined, FolderOutlined, SearchOutlined, EyeOutlined } from '@ant-design/icons'
@@ -109,7 +109,7 @@ export default function BlogListTemplate({
             <Row gutter={[24, 24]}>
               {articles.map((article, index) => (
                 <Col xs={24} sm={12} lg={8} key={article.id}>
-                  <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Card
                       hoverable
                       className="fade-in"

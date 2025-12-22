@@ -33,7 +33,7 @@ const themeBlogListComponents: Record<string, any> = {
 }
 
 export default function BlogPageClient() {
-  const router = useRouter()
+  const _router = useRouter()
   const [articles, setArticles] = useState<Article[]>([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)

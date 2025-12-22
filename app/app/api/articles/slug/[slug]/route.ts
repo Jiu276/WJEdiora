@@ -40,7 +40,7 @@ export async function GET(
             },
           })
         }
-      } catch (e) {
+      } catch {
         // 解码失败，忽略
       }
     }

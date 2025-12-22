@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, Tag, Typography, Empty, Skeleton, Space } from 'antd'
+import { Card, Tag, Typography, Empty, Skeleton } from 'antd'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import type { ThemeConfig } from '@/lib/themeLoader'
@@ -15,8 +15,9 @@ interface TagItem {
   count: number
 }
 
-// 动态加载主题组件映射
-const themeArchiveComponents: Record<string, any> = {
+// 动态加载主题组件映射（当前未使用，保留以备将来使用）
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _themeArchiveComponents: Record<string, React.ComponentType<any>> = {
   default: dynamic(() => import('@/themes/default/ArchiveTemplate'), { ssr: true }),
   minimal: dynamic(() => import('@/themes/minimal/ArchiveTemplate'), { ssr: true }),
   magazine: dynamic(() => import('@/themes/magazine/ArchiveTemplate'), { ssr: true }),
@@ -31,7 +32,7 @@ const themeArchiveComponents: Record<string, any> = {
 export default function TagsPage() {
   const [tags, setTags] = useState<TagItem[]>([])
   const [loading, setLoading] = useState(true)
-  const [themeSlug, setThemeSlug] = useState('default')
+  const [, setThemeSlug] = useState('default')
   const [themeConfig, setThemeConfig] = useState<ThemeConfig | null>(null)
 
   useEffect(() => {

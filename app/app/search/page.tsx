@@ -1,4 +1,7 @@
 import { Metadata } from 'next'
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 import SearchPageClient from './SearchPageClient'
 
 export const metadata: Metadata = {

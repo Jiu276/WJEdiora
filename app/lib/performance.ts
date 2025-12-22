@@ -102,7 +102,7 @@ export function getPerformanceMetrics() {
     tcp: navigation.connectEnd - navigation.connectStart,
     request: navigation.responseStart - navigation.requestStart,
     response: navigation.responseEnd - navigation.responseStart,
-    dom: navigation.domContentLoadedEventEnd - navigation.domLoading,
+    dom: navigation.domContentLoadedEventEnd - (navigation.domContentLoadedEventStart || navigation.domInteractive || navigation.fetchStart),
     load: navigation.loadEventEnd - navigation.fetchStart,
   }
 }

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -18,6 +18,7 @@ interface Article {
   excerpt: string | null
   author: string
   publishDate: string | null
+  featuredImage: string | null
   viewCount?: number
   category?: {
     id: string
@@ -84,25 +85,25 @@ export default function MinimalArticleDetailTemplate({
           </Link>
           <div style={{ marginTop: 20 }}>
             <Link href="/blog" style={{ marginRight: 24, color: config.colors.subtext, textDecoration: 'none', fontSize: 14 }}>
-              文章列表
+              Articles
             </Link>
             <Link href="/archive" style={{ marginRight: 24, color: config.colors.subtext, textDecoration: 'none', fontSize: 14 }}>
-              归档
+              Archive
             </Link>
             <Link href="/admin" style={{ color: config.colors.subtext, textDecoration: 'none', fontSize: 14 }}>
-              管理后台
+              Admin
             </Link>
           </div>
         </header>
 
-        {/* 返回按钮 */}
+        {/* Back button */}
         <Button
           type="text"
           icon={<ArrowLeftOutlined />}
           onClick={() => router.push('/blog')}
           style={{ marginBottom: 40, color: config.colors.subtext }}
         >
-          返回列表
+          Back to list
         </Button>
 
         {/* 文章内容 */}
@@ -124,12 +125,12 @@ export default function MinimalArticleDetailTemplate({
             <Space size="middle" split={<span>·</span>}>
               <span>✍️ {article.author}</span>
               {article.publishDate && (
-                <span>📅 {new Date(article.publishDate).toLocaleString('zh-CN')}</span>
+                <span>📅 {new Date(article.publishDate).toLocaleString('en-US')}</span>
               )}
               {article.viewCount !== undefined && (
                 <span>
                   <EyeOutlined style={{ marginRight: 4 }} />
-                  {article.viewCount} 次阅读
+                  {article.viewCount} views
                 </span>
               )}
               {article.category && (
@@ -190,22 +191,22 @@ export default function MinimalArticleDetailTemplate({
 
           <div style={{ marginTop: 24 }}>
             <Typography.Text strong style={{ color: config.colors.text, marginRight: 16, fontSize: 14 }}>
-              分享文章：
+              Share:
             </Typography.Text>
             <ShareButtons
               title={article.title}
-              url={`/blog/${article.slug || article.id}`}
+              url={`/blog/${article.id}`}
               description={article.excerpt || undefined}
               image={article.featuredImage || undefined}
             />
           </div>
         </article>
 
-        {/* 相关链接 */}
+        {/* Related links */}
         {links.length > 0 && (
           <div style={{ marginBottom: 40, borderBottom: `1px solid ${config.colors.border}`, paddingBottom: 40 }}>
             <Title level={4} style={{ marginBottom: 16, color: config.colors.text, fontSize: 18 }}>
-              相关链接
+              Related links
             </Title>
             <List
               dataSource={links}
@@ -226,17 +227,17 @@ export default function MinimalArticleDetailTemplate({
           </div>
         )}
 
-        {/* 相关文章推荐 */}
+        {/* Related articles */}
         {relatedArticles.length > 0 && (
           <div style={{ marginBottom: 40, borderBottom: `1px solid ${config.colors.border}`, paddingBottom: 40 }}>
             <Title level={4} style={{ marginBottom: 24, color: config.colors.text, fontSize: 18 }}>
-              相关文章
+              Related articles
             </Title>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               {relatedArticles.map((related) => (
                 <Link
                   key={related.id}
-                  href={`/blog/${related.slug}`}
+                  href={`/blog/${related.id}`}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
                   <div>

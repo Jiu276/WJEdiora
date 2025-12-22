@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Card, Col, Row, Space, Tag, Typography, Input, Button } from 'antd'
 import { SearchOutlined, CalendarOutlined, FolderOutlined } from '@ant-design/icons'
@@ -115,7 +115,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
             {filteredArticles.map((article) => (
               <Col xs={24} sm={12} lg={8} key={article.id}>
                 <Link
-                  href={`/blog/${article.slug || article.id}`}
+                  href={`/blog/${article.id}`}
                   style={{ textDecoration: 'none' }}
                 >
                   <Card

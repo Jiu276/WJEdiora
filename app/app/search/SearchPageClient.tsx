@@ -44,7 +44,7 @@ export default function SearchPageClient() {
   const [results, setResults] = useState<SearchResults | null>(null)
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const [themeSlug, setThemeSlug] = useState('default')
+  const [, setThemeSlug] = useState('default')
   const [themeConfig, setThemeConfig] = useState<ThemeConfig | null>(null)
 
   const pageSize = 12
@@ -223,7 +223,7 @@ export default function SearchPageClient() {
                 Found {results.total} articles
                 {keyword && (
                   <span style={{ color: config.colors.subtext, fontSize: 16, fontWeight: 400, marginLeft: 8 }}>
-                    (keyword: "{keyword}")
+                    (keyword: &ldquo;{keyword}&rdquo;)
                   </span>
                 )}
               </Title>

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -103,14 +103,14 @@ export default function MagazineArticleDetailTemplate({
         </div>
       </header>
 
-      {/* 主内容区 */}
+      {/* Main content */}
       <div style={{ maxWidth: 1000, margin: '0 auto', padding: '48px 24px' }}>
         <Button
           icon={<ArrowLeftOutlined />}
           onClick={() => router.push('/blog')}
           style={{ marginBottom: 32 }}
         >
-          返回列表
+          Back to list
         </Button>
 
         <Card
@@ -216,7 +216,7 @@ export default function MagazineArticleDetailTemplate({
               </Typography.Text>
               <ShareButtons
                 title={article.title}
-                url={`/blog/${article.slug || article.id}`}
+                url={`/blog/${article.id}`}
                 description={article.excerpt || undefined}
                 image={article.featuredImage || undefined}
               />
@@ -297,7 +297,7 @@ export default function MagazineArticleDetailTemplate({
                         </div>
                       )
                     }
-                    onClick={() => router.push(`/blog/${related.slug}`)}
+                    onClick={() => router.push(`/blog/${related.id}`)}
                     style={{ cursor: 'pointer', height: '100%', background: config.colors.cardBackground, borderColor: config.colors.border }}
                   >
                     <Card.Meta

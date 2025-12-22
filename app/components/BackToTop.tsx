@@ -44,7 +44,7 @@ export default function BackToTop({ visibilityHeight = 400, color = '#1890ff' }:
         boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
       }}
       onClick={scrollToTop}
-      tooltip="返回顶部"
+      tooltip="Back to top"
     />
   )
 }

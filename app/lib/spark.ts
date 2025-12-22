@@ -1,4 +1,3 @@
-import { ReadableStreamDefaultReader } from 'stream/web'
 
 const API_KEY = process.env.SPARK_API_KEY
 const API_BASE_URL = process.env.SPARK_API_BASE_URL || 'https://xh.v1api.cc'

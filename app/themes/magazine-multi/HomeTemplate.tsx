@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { Input, Button, Card, Row, Col, Typography, Tag, Space, List, Divider } from 'antd'
@@ -137,7 +137,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                 <Row gutter={[16, 16]}>
                   <Col xs={24} md={12}>
                     <div
-                      onClick={() => window.location.href = `/blog/${featuredArticle.slug || featuredArticle.id}`}
+                      onClick={() => window.location.href = `/blog/${featuredArticle.id}`}
                       style={{
                         position: 'relative',
                         height: 400,
@@ -158,7 +158,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                           {featuredArticle.category.name.toUpperCase()}
                         </Tag>
                       )}
-                      <Link href={`/blog/${featuredArticle.slug || featuredArticle.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Link href={`/blog/${featuredArticle.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Title level={2} style={{ color: '#fff', marginBottom: 12, fontSize: 24, fontWeight: 'bold' }}>
                           {featuredArticle.title}
                         </Title>
@@ -177,7 +177,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                         <Card
                           key={article.id}
                           hoverable
-                          onClick={() => window.location.href = `/blog/${article.slug || article.id}`}
+                          onClick={() => window.location.href = `/blog/${article.id}`}
                           style={{ borderRadius: 8, overflow: 'hidden', cursor: 'pointer' }}
                           bodyStyle={{ padding: 0 }}
                           cover={
@@ -213,7 +213,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                           }
                         >
                           <div style={{ padding: 16 }}>
-                            <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                               <Title level={5} style={{ marginBottom: 8, fontSize: 14, fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                 {article.title}
                               </Title>
@@ -285,7 +285,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                       <Col xs={24} sm={8} key={article.id}>
                         <Card
                           hoverable
-                          onClick={() => window.location.href = `/blog/${article.slug || article.id}`}
+                          onClick={() => window.location.href = `/blog/${article.id}`}
                           style={{ borderRadius: 8, overflow: 'hidden', height: '100%', cursor: 'pointer' }}
                           bodyStyle={{ padding: 0 }}
                           cover={
@@ -306,7 +306,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                           }
                         >
                           <div style={{ padding: 16 }}>
-                            <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                               <Title level={5} style={{ marginBottom: 8, fontSize: 14, fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                                 {article.title}
                               </Title>
@@ -375,7 +375,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                         <Col xs={24} sm={12} md={6} key={article.id}>
                           <Card
                             hoverable
-                            onClick={() => window.location.href = `/blog/${article.slug || article.id}`}
+                            onClick={() => window.location.href = `/blog/${article.id}`}
                             style={{ borderRadius: 8, overflow: 'hidden', height: '100%', cursor: 'pointer' }}
                             bodyStyle={{ padding: 0 }}
                             cover={
@@ -391,7 +391,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                             }
                           >
                             <div style={{ padding: 12 }}>
-                              <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                              <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                 <Title level={5} style={{ marginBottom: 8, fontSize: 13, fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', minHeight: 40 }}>
                                   {article.title}
                                 </Title>
@@ -469,7 +469,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                   dataSource={popularArticles}
                   renderItem={(article) => (
                     <List.Item style={{ padding: '12px 0', borderBottom: '1px solid #f0f0f0' }}>
-                      <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', gap: 12 }}>
+                      <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', gap: 12 }}>
                         {article.featuredImage && (
                           <div style={{ width: 80, height: 60, borderRadius: 4, overflow: 'hidden', flexShrink: 0 }}>
                             <LazyImage
@@ -523,7 +523,7 @@ export default function HomeTemplate({ articles, config, searchKeyword = '', onS
                   dataSource={trendingArticles}
                   renderItem={(article) => (
                     <List.Item style={{ padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
-                      <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Text style={{ fontSize: 12, display: 'block', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {article.title}
                         </Text>

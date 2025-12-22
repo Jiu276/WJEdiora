@@ -90,13 +90,15 @@ export default function Dashboard() {
       }, 0)
       
       // 按类别统计
-      const categoryMap = new Map(categories.map((c: any) => [c.id, c.name]))
+      const categoryMap = new Map<string, string>(categories.map((c: any) => [String(c.id), String(c.name)]))
       const categoryCounts = new Map<string, number>()
       
       articles.forEach((article) => {
         if ((article as any).categoryId && article.status === 'published') {
-          const categoryName = categoryMap.get((article as any).categoryId) || '未分类'
-          categoryCounts.set(categoryName, (categoryCounts.get(categoryName) || 0) + 1)
+          const categoryId = String((article as any).categoryId)
+          const categoryName = categoryMap.get(categoryId) || '未分类'
+          const currentCount = categoryCounts.get(categoryName) ?? 0
+          categoryCounts.set(categoryName, currentCount + 1)
         }
       })
       

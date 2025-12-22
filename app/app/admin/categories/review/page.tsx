@@ -84,7 +84,7 @@ export default function CategoryReviewPage() {
         const data = await res.json()
         message.error(data.error || '批准失败')
       }
-    } catch (error) {
+    } catch {
       message.error('批准失败')
     }
   }
@@ -111,7 +111,7 @@ export default function CategoryReviewPage() {
             const data = await res.json()
             message.error(data.error || '拒绝失败')
           }
-        } catch (error) {
+        } catch {
           message.error('拒绝失败')
         }
       },
@@ -150,7 +150,7 @@ export default function CategoryReviewPage() {
         const data = await res.json()
         message.error(data.error || '合并失败')
       }
-    } catch (error) {
+    } catch {
       message.error('合并失败')
     }
   }
@@ -292,9 +292,13 @@ export default function CategoryReviewPage() {
             value={mergeTargetId}
             onChange={setMergeTargetId}
             showSearch
-            filterOption={(input, option) =>
-              (option?.children as string)?.toLowerCase().includes(input.toLowerCase())
-            }
+            filterOption={(input, option) => {
+              const children = option?.children;
+              const text = typeof children === 'string' ? children : 
+                          Array.isArray(children) ? children.join('') : 
+                          String(children || '');
+              return text.toLowerCase().includes(input.toLowerCase());
+            }}
           >
             {allCategories.map((cat) => (
               <Option key={cat.id} value={cat.id}>

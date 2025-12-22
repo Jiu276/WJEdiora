@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import dynamic from 'next/dynamic'
 import BlogPageClient from './BlogPageClient'
 
 export const metadata: Metadata = {

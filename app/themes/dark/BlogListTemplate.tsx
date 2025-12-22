@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Card, Row, Col, Typography, Empty, Skeleton, Pagination, Tag, Space } from 'antd'
 import { CalendarOutlined, FolderOutlined, MoonOutlined } from '@ant-design/icons'
@@ -103,7 +103,7 @@ export default function DarkBlogListTemplate({
           <Row gutter={[24, 24]}>
             {articles.map((article) => (
               <Col xs={24} sm={12} lg={8} key={article.id}>
-                <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none' }}>
+                <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none' }}>
                   <Card
                     hoverable
                     style={{

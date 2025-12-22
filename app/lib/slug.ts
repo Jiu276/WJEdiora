@@ -50,8 +50,8 @@ export function generateSlug(title: string): string {
  */
 export async function ensureUniqueSlug(
   baseSlug: string,
-  excludeId?: string,
-  checkUnique: (slug: string, excludeId?: string) => Promise<boolean>
+  checkUnique: (slug: string, excludeId?: string) => Promise<boolean>,
+  excludeId?: string
 ): Promise<string> {
   let slug = baseSlug
   let counter = 1

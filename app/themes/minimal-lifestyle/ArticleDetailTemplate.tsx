@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -72,14 +72,14 @@ export default function ArticleDetailTemplate({
             Ediora
           </Link>
           <nav style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-            <Link href="/" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>首页</Link>
-            <Link href="/blog" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>文章</Link>
-            <Link href="/archive" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>归档</Link>
+            <Link href="/" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>Home</Link>
+            <Link href="/blog" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>Articles</Link>
+            <Link href="/archive" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>Archive</Link>
           </nav>
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main content */}
       <main style={{ maxWidth: 900, margin: '0 auto', padding: '60px 24px' }}>
         {/* Back Button */}
         <Button
@@ -87,7 +87,7 @@ export default function ArticleDetailTemplate({
           onClick={() => router.push('/blog')}
           style={{ marginBottom: 32, border: 'none', boxShadow: 'none' }}
         >
-          返回列表
+          Back to list
         </Button>
 
         {/* Article Header */}
@@ -185,7 +185,7 @@ export default function ArticleDetailTemplate({
             </Typography.Text>
             <ShareButtons
               title={article.title}
-              url={`/blog/${article.slug || article.id}`}
+              url={`/blog/${article.id}`}
               description={article.excerpt || undefined}
               image={article.featuredImage || undefined}
             />
@@ -201,7 +201,7 @@ export default function ArticleDetailTemplate({
             <Row gutter={[24, 24]}>
               {relatedArticles.map((related) => (
                 <Col xs={24} sm={12} key={related.id}>
-                  <Link href={`/blog/${related.slug || related.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link href={`/blog/${related.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Card
                       hoverable
                       style={{

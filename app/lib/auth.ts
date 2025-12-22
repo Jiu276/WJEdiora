@@ -15,7 +15,8 @@ const AUTH_COOKIE_NAME = 'admin_session'
 const SESSION_MAX_AGE = 60 * 60 * 24 * 7 // 7天
 
 // 权限定义
-export const PERMISSIONS = {
+// 使用显式的类型，让 TS 知道数组里放的是 AdminRole，而不是字面量元组
+export const PERMISSIONS: Record<string, AdminRole[]> = {
   // 文章权限
   'article:create': ['super_admin', 'admin', 'editor', 'author'],
   'article:edit:own': ['super_admin', 'admin', 'editor', 'author'],
@@ -37,7 +38,7 @@ export const PERMISSIONS = {
   
   // 文章标题生成
   'title:generate': ['super_admin', 'admin', 'editor', 'author'],
-} as const
+}
 
 export type Permission = keyof typeof PERMISSIONS
 
@@ -91,8 +92,8 @@ export function hasPermission(user: AdminUser | null, permission: Permission): b
     return false
   }
   
-  const allowedRoles = PERMISSIONS[permission]
-  return allowedRoles.includes(user.role)
+  const allowedRoles: AdminRole[] = PERMISSIONS[permission]
+  return (allowedRoles as AdminRole[]).includes(user.role)
 }
 
 /**

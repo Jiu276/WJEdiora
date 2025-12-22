@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { Input, Button, Card, Row, Col, Typography, Tag, Space, List, Divider } from 'antd'
@@ -112,7 +112,7 @@ export default function DarkHomeTemplate({ articles, config, searchKeyword = '',
               <div style={{ marginBottom: 60 }}>
                 <Row gutter={[16, 16]}>
                   <Col xs={24} md={12}>
-                    <Link href={`/blog/${featuredArticle.slug || featuredArticle.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link href={`/blog/${featuredArticle.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                       <div
                         style={{
                           position: 'relative',
@@ -149,7 +149,7 @@ export default function DarkHomeTemplate({ articles, config, searchKeyword = '',
                   <Col xs={24} md={12}>
                     <Space orientation="vertical" size={16} style={{ width: '100%' }}>
                       {otherFeatured.map((article) => (
-                        <Link key={article.id} href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link key={article.id} href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                           <Card
                             hoverable
                             style={{ background: '#2c2c2c', borderColor: '#333', borderRadius: 8, overflow: 'hidden' }}
@@ -218,7 +218,7 @@ export default function DarkHomeTemplate({ articles, config, searchKeyword = '',
                 <Row gutter={[16, 16]}>
                   {(articlesByCategory.get('Lifestyle') || articlesByCategory.get('生活') || filteredArticles.slice(0, 6)).slice(0, 6).map((article) => (
                     <Col xs={24} sm={12} key={article.id}>
-                      <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Card
                           hoverable
                           style={{ background: '#2c2c2c', borderColor: '#333', borderRadius: 8, overflow: 'hidden', height: '100%' }}
@@ -322,7 +322,7 @@ export default function DarkHomeTemplate({ articles, config, searchKeyword = '',
                       <Col xs={24} md={12}>
                         <Space orientation="vertical" size={16} style={{ width: '100%' }}>
                           {categoryArticles.slice(1, 4).map((article) => (
-                            <Link key={article.id} href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Link key={article.id} href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                               <Card
                                 hoverable
                                 style={{ background: '#2c2c2c', borderColor: '#333', borderRadius: 8, overflow: 'hidden' }}
@@ -413,7 +413,7 @@ export default function DarkHomeTemplate({ articles, config, searchKeyword = '',
                   dataSource={recentArticles.slice(0, 3)}
                   renderItem={(article) => (
                     <List.Item style={{ padding: '12px 0', borderBottom: '1px solid #333' }}>
-                      <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', gap: 12 }}>
+                      <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', gap: 12 }}>
                         {article.featuredImage && (
                           <div style={{ width: 80, height: 60, borderRadius: 4, overflow: 'hidden', flexShrink: 0 }}>
                             <LazyImage
@@ -451,7 +451,7 @@ export default function DarkHomeTemplate({ articles, config, searchKeyword = '',
                   dataSource={techArticles}
                   renderItem={(article) => (
                     <List.Item style={{ padding: '12px 0', borderBottom: '1px solid #333' }}>
-                      <Link href={`/blog/${article.slug || article.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', gap: 12 }}>
+                      <Link href={`/blog/${article.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', gap: 12 }}>
                         {article.featuredImage && (
                           <div style={{ width: 80, height: 60, borderRadius: 4, overflow: 'hidden', flexShrink: 0 }}>
                             <LazyImage

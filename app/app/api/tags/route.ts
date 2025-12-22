@@ -23,39 +23,26 @@ export async function GET() {
             articleId: { in: articleIds },
           },
           select: {
-            tagId: true,
+            tag: true,
           },
         })
       : []
 
-    const tagIds = [...new Set(articleTags.map((at) => at.tagId))]
-
-    // 获取标签信息
-    const tags = tagIds.length > 0
-      ? await prisma.tag.findMany({
-          where: {
-            id: { in: tagIds },
-            deletedAt: null,
-          },
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-          },
-        })
-      : []
+    const uniqueTagNames = Array.from(new Set(articleTags.map((at) => at.tag)))
 
     // 统计每个标签的使用次数
     const tagCounts = new Map<string, number>()
     articleTags.forEach((at) => {
-      tagCounts.set(at.tagId, (tagCounts.get(at.tagId) || 0) + 1)
+      tagCounts.set(at.tag, (tagCounts.get(at.tag) || 0) + 1)
     })
 
-    // 添加使用次数并排序
-    const tagsWithCount = tags
-      .map((tag) => ({
-        ...tag,
-        count: tagCounts.get(tag.id) || 0,
+    // 构建标签列表（tag 字段本身就是标签名称）
+    const tagsWithCount = uniqueTagNames
+      .map((tagName) => ({
+        id: tagName,
+        name: tagName,
+        slug: tagName.toLowerCase().replace(/\s+/g, '-'),
+        count: tagCounts.get(tagName) || 0,
       }))
       .sort((a, b) => b.count - a.count)
 

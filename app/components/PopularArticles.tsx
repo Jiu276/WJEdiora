@@ -6,7 +6,7 @@ import Link from 'next/link'
 import LazyImage from '@/components/LazyImage'
 import type { ThemeConfig } from '@/lib/themeLoader'
 
-const { Title, Text } = Typography
+const { Title } = Typography
 
 interface Article {
   id: string
@@ -34,7 +34,7 @@ export default function PopularArticles({
   articles,
   loading = false,
   config,
-  title = '热门文章',
+  title = 'Popular Articles',
 }: PopularArticlesProps) {
   if (loading) {
     return (
@@ -123,7 +123,7 @@ export default function PopularArticles({
                   {article.publishDate && (
                     <span>
                       <CalendarOutlined style={{ marginRight: 4 }} />
-                      {new Date(article.publishDate).toLocaleDateString('zh-CN')}
+                      {new Date(article.publishDate).toLocaleDateString('en-US')}
                     </span>
                   )}
                   {article.category && (

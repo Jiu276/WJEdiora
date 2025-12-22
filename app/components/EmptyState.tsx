@@ -9,7 +9,7 @@ interface EmptyStateProps {
   showHomeButton?: boolean
 }
 
-export default function EmptyState({ description = '暂无数据', showHomeButton = false }: EmptyStateProps) {
+export default function EmptyState({ description = 'No data', showHomeButton = false }: EmptyStateProps) {
   return (
     <Empty
       description={description}
@@ -19,7 +19,7 @@ export default function EmptyState({ description = '暂无数据', showHomeButto
       {showHomeButton && (
         <Link href="/">
           <Button type="primary" icon={<HomeOutlined />}>
-            返回首页
+            Back to Home
           </Button>
         </Link>
       )}

@@ -1,6 +1,6 @@
 import { prisma } from './prisma'
 import { extractBestKeywordForTag } from './keywordExtractor'
-import { findSimilarTag, validateTagName, calculateSimilarity } from './similarity'
+import { findSimilarTag, validateTagName } from './similarity'
 import { generateSlug } from './slug'
 
 /**
@@ -340,7 +340,7 @@ export async function createArticleTagsFromMatch(
     }
 
     // 去重
-    categoryIds = [...new Set(categoryIds)]
+    categoryIds = Array.from(new Set(categoryIds))
 
     if (categoryIds.length === 0) {
       return

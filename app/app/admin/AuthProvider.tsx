@@ -71,6 +71,3 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   return <>{children}</>
 }
 
-// 导出布局组件供其他页面使用
-export { AdminLayoutContent } from './layout'
-

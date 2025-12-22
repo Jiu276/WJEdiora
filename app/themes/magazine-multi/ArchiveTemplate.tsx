@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Typography, List, Tag, Empty, Skeleton, Space, Card } from 'antd'
 import { CalendarOutlined, FileTextOutlined } from '@ant-design/icons'
@@ -51,9 +51,9 @@ export default function ArchiveTemplate({ loading, archiveGroups, yearStats, con
             Ediora
           </Link>
           <nav style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-            <Link href="/" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>首页</Link>
-            <Link href="/blog" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>文章</Link>
-            <Link href="/archive" style={{ color: config.colors.primary, textDecoration: 'none', fontSize: '15px', fontWeight: 500 }}>归档</Link>
+            <Link href="/" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>Home</Link>
+            <Link href="/blog" style={{ color: config.colors.text, textDecoration: 'none', fontSize: '15px' }}>Articles</Link>
+            <Link href="/archive" style={{ color: config.colors.primary, textDecoration: 'none', fontSize: '15px', fontWeight: 500 }}>Archive</Link>
           </nav>
         </div>
       </header>
@@ -137,7 +137,7 @@ export default function ArchiveTemplate({ loading, archiveGroups, yearStats, con
                                 }}
                               >
                                 <Link
-                                  href={`/blog/${article.slug || article.id}`}
+                                  href={`/blog/${article.id}`}
                                   style={{ textDecoration: 'none', color: 'inherit', display: 'flex', width: '100%', alignItems: 'center', gap: 16 }}
                                 >
                                   <div style={{ flex: 1, minWidth: 0 }}>

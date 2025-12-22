@@ -44,7 +44,7 @@ export default function VersionHistory({ articleId, onRestore }: VersionHistoryP
       } else {
         message.error('加载版本历史失败')
       }
-    } catch (error) {
+    } catch {
       message.error('加载版本历史失败')
     } finally {
       setLoading(false)
@@ -63,7 +63,7 @@ export default function VersionHistory({ articleId, onRestore }: VersionHistoryP
       } else {
         message.error('版本恢复失败')
       }
-    } catch (error) {
+    } catch {
       message.error('版本恢复失败')
     }
   }

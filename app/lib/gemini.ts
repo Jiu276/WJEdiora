@@ -4,15 +4,24 @@
 
 // 注意：Next.js 的 fetch 可能不支持 agent
 // 我们通过环境变量让系统代理生效，或者使用 node-fetch
-let HttpsProxyAgent: any = null
-let HttpProxyAgent: any = null
+// 代理库动态导入（如果需要）
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let _HttpsProxyAgent: unknown = null
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let _HttpProxyAgent: unknown = null
 
 try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const httpsProxyAgent = require('https-proxy-agent')
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const httpProxyAgent = require('http-proxy-agent')
-  HttpsProxyAgent = httpsProxyAgent.HttpsProxyAgent || httpsProxyAgent.default
-  HttpProxyAgent = httpProxyAgent.HttpProxyAgent || httpProxyAgent.default
-} catch (error) {
+  // 赋值给未使用的变量（保留以备将来使用）
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _HttpsProxyAgent = httpsProxyAgent.HttpsProxyAgent || httpsProxyAgent.default
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _HttpProxyAgent = httpProxyAgent.HttpProxyAgent || httpProxyAgent.default
+} catch {
   console.warn('代理库未安装，将使用环境变量代理')
 }
 
@@ -32,12 +41,14 @@ const MODEL_CANDIDATES = [
 const CONFIGURED_MODEL = process.env.GOOGLE_AI_MODEL
 const CONFIGURED_VERSION = process.env.GOOGLE_AI_API_VERSION
 
-let MODEL_NAME = CONFIGURED_MODEL || 'gemini-1.5-flash'
-let API_VERSION = CONFIGURED_VERSION || 'v1beta'
+const MODEL_NAME = CONFIGURED_MODEL || 'gemini-1.5-flash'
+const API_VERSION = CONFIGURED_VERSION || 'v1beta'
 
-// 如果环境变量指定了完整 URL，使用它
-const API_URL = process.env.GOOGLE_AI_API_URL || `https://generativelanguage.googleapis.com/${API_VERSION}/models/${MODEL_NAME}`
-const STREAM_URL = process.env.GOOGLE_AI_STREAM_URL || `https://generativelanguage.googleapis.com/${API_VERSION}/models/${MODEL_NAME}:streamGenerateContent`
+// 如果环境变量指定了完整 URL，使用它（当前未使用，保留以备将来使用）
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _API_URL = process.env.GOOGLE_AI_API_URL || `https://generativelanguage.googleapis.com/${API_VERSION}/models/${MODEL_NAME}`
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _STREAM_URL = process.env.GOOGLE_AI_STREAM_URL || `https://generativelanguage.googleapis.com/${API_VERSION}/models/${MODEL_NAME}:streamGenerateContent`
 
 // 代理配置
 const HTTPS_PROXY = process.env.HTTPS_PROXY || process.env.HTTP_PROXY
@@ -261,7 +272,7 @@ async function findWorkingModel(): Promise<{ model: string; version: string; url
           url: `https://generativelanguage.googleapis.com/${candidate.version}/models/${candidate.name}:streamGenerateContent`,
         }
       }
-    } catch (error) {
+    } catch {
       // 继续尝试下一个
       continue
     }
@@ -381,7 +392,7 @@ export async function* generateTitlesStream(prompt: string): AsyncGenerator<{
         let errorText = ''
         try {
           errorText = await response.text()
-        } catch (e) {
+        } catch {
           errorText = '无法读取错误信息'
         }
         
@@ -394,7 +405,7 @@ export async function* generateTitlesStream(prompt: string): AsyncGenerator<{
         })
         
         let errorMessage = `API 调用失败 (状态码: ${response.status})`
-        let suggestions: string[] = []
+        const suggestions: string[] = []
         
         if (response.status === 401) {
           errorMessage = 'API Key 无效或已过期，请检查配置'
@@ -538,7 +549,7 @@ export async function* generateTitlesStream(prompt: string): AsyncGenerator<{
         if (text) {
           fullText += text
         }
-      } catch (error) {
+      } catch {
         // 忽略
       }
     }

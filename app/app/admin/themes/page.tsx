@@ -137,7 +137,7 @@ export default function ThemesPage() {
                 } else {
                   message.error(data.error || '初始化失败')
                 }
-              } catch (error) {
+              } catch {
                 message.error('初始化失败，请检查网络连接')
               }
             }}

@@ -87,7 +87,7 @@ export default function ArticleDetailTemplate({
           onClick={() => router.push('/blog')}
           style={{ marginBottom: 32, border: 'none', boxShadow: 'none' }}
         >
-          返回列表
+          Back to list
         </Button>
 
         {/* Article Header */}
@@ -185,7 +185,7 @@ export default function ArticleDetailTemplate({
             </Typography.Text>
             <ShareButtons
               title={article.title}
-              url={`/blog/${article.slug || article.id}`}
+              url={`/blog/${article.id}`}
               description={article.excerpt || undefined}
               image={article.featuredImage || undefined}
             />
@@ -201,7 +201,7 @@ export default function ArticleDetailTemplate({
             <Row gutter={[24, 24]}>
               {relatedArticles.map((related) => (
                 <Col xs={24} sm={12} key={related.id}>
-                  <Link href={`/blog/${related.slug || related.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link href={`/blog/${related.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <div style={{ display: 'flex', gap: 16, padding: 16, borderRadius: 8, border: '1px solid #e5e7eb', transition: 'all 0.3s', cursor: 'pointer' }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'

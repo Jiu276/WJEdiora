@@ -16,7 +16,7 @@ import {
   Modal,
   Typography,
 } from 'antd'
-import { SaveOutlined, ArrowLeftOutlined, PlusOutlined, EyeOutlined, DownloadOutlined } from '@ant-design/icons'
+import { SaveOutlined, ArrowLeftOutlined, EyeOutlined, DownloadOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
 import PublishWizard from '@/components/PublishWizard'
@@ -35,6 +35,7 @@ const { Option } = Select
 interface Article {
   id: string
   title: string
+  slug?: string
   content: string
   excerpt: string
   status: 'draft' | 'published'
@@ -56,8 +57,8 @@ export default function ArticleEditPage() {
   const [loading, setLoading] = useState(false)
   const [article, setArticle] = useState<Article | null>(null)
   const [showPublishWizard, setShowPublishWizard] = useState(false)
-  const [categories, setCategories] = useState<any[]>([])
-  const [articleTitles, setArticleTitles] = useState<any[]>([])
+  const [categories, setCategories] = useState<Array<{ id: string; name: string }>>([])
+  const [articleTitles, setArticleTitles] = useState<Array<{ id: string; name: string }>>([])
   const [tags, setTags] = useState<string[]>([])
   const [links, setLinks] = useState<Array<{ keyword: string; url: string }>>([])
   const [newLink, setNewLink] = useState<{ keyword: string; url: string }>({ keyword: '', url: '' })
@@ -127,12 +128,12 @@ export default function ArticleEditPage() {
         const tagsRes = await fetch(`/api/articles/${id}/tags`)
         if (tagsRes.ok) {
           const tagsData = await tagsRes.json()
-          setTags(tagsData.map((t: any) => t.tag))
+          setTags(tagsData.map((t: { tag: string }) => t.tag))
         }
       } else {
         message.error('加载文章失败')
       }
-    } catch (error) {
+    } catch {
       message.error('加载文章失败')
     } finally {
       setLoading(false)
@@ -236,9 +237,10 @@ export default function ArticleEditPage() {
         const errorData = await res.json().catch(() => ({}))
         message.error(errorData.error || '保存失败，请稍后重试')
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Save error:', error)
-      message.error(error?.message || '保存失败，请检查网络连接')
+      const errorMessage = error instanceof Error ? error.message : '保存失败，请检查网络连接'
+      message.error(errorMessage)
     } finally {
       setLoading(false)
     }
@@ -306,12 +308,26 @@ export default function ArticleEditPage() {
         status: 'published',
         publishDate: values.publishDate || dayjs(),
       })
-    } catch (err) {
+    } catch {
       // 验证未通过或保存失败已在 handleSave 内提示
     }
   }
 
-  const handlePublishComplete = async (articleData: any) => {
+  type PublishPayload = {
+    title?: string
+    content?: string
+    excerpt?: string
+    categoryId?: string | null
+    titleId?: string
+    publishDate?: unknown
+    featuredImage?: string | null
+    enableKeywordLinks?: boolean
+    customDomains?: Array<string>
+    links?: Array<{ keyword: string; url: string }>
+    images?: Array<{ url: string; description?: string }>
+  }
+
+  const handlePublishComplete = async (articleData: PublishPayload) => {
     setLoading(true)
     try {
       // 获取当前登录用户信息
@@ -360,7 +376,7 @@ export default function ArticleEditPage() {
       const promises = []
       
       // 保存自定义域名
-      if (articleData.customDomains && articleData.customDomains.length > 0) {
+      if (Array.isArray(articleData.customDomains) && articleData.customDomains.length > 0) {
         promises.push(
           fetch(`/api/articles/${articleId}/custom-domains`, {
             method: 'POST',
@@ -371,7 +387,7 @@ export default function ArticleEditPage() {
       }
       
       // 保存超链接
-      if (articleData.links && articleData.links.length > 0) {
+      if (Array.isArray(articleData.links) && articleData.links.length > 0) {
         promises.push(
           fetch(`/api/articles/${articleId}/links`, {
             method: 'POST',
@@ -382,7 +398,7 @@ export default function ArticleEditPage() {
       }
       
       // 保存配图
-      if (articleData.images && articleData.images.length > 0) {
+      if (Array.isArray(articleData.images) && articleData.images.length > 0) {
         promises.push(
           fetch(`/api/articles/${articleId}/images`, {
             method: 'POST',
@@ -397,11 +413,12 @@ export default function ArticleEditPage() {
       
       message.success('发布成功')
       router.push(`/admin/articles/${articleId}`)
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Publish error:', error)
       
       // 如果是 slug 冲突，给出更明确的错误提示
-      if (error.message?.includes('slug') || error.message?.includes('唯一')) {
+      const errorMessage = error instanceof Error ? error.message : ''
+      if (errorMessage.includes('slug') || errorMessage.includes('唯一')) {
         message.error('文章标题已存在，请修改标题后重试')
       } else {
         message.error('发布失败，请稍后重试')
@@ -469,7 +486,7 @@ export default function ArticleEditPage() {
                   } else {
                     message.error('导出失败')
                   }
-                } catch (error) {
+                } catch {
                   message.error('导出失败')
                 }
               }}

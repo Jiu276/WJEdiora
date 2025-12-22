@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Typography, List, Tag, Empty, Skeleton, Space } from 'antd'
 import { CalendarOutlined, FileTextOutlined } from '@ant-design/icons'
@@ -129,7 +129,7 @@ export default function ArchiveTemplate({ loading, archiveGroups, yearStats, con
                                 }}
                               >
                                 <Link
-                                  href={`/blog/${article.slug || article.id}`}
+                                  href={`/blog/${article.id}`}
                                   style={{ textDecoration: 'none', color: 'inherit', display: 'flex', width: '100%', alignItems: 'center', gap: 16 }}
                                 >
                                   <div style={{ flex: 1, minWidth: 0 }}>

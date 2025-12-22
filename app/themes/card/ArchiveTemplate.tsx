@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Card, Row, Col, Typography, List, Tag, Empty, Skeleton, Space } from 'antd'
 import { CalendarOutlined, FileTextOutlined } from '@ant-design/icons'
@@ -213,7 +213,7 @@ export default function CardArchiveTemplate({
                             avatar={<FileTextOutlined style={{ fontSize: '20px', color: config.colors.primary }} />}
                             title={
                               <Link
-                                href={`/blog/${article.slug}`}
+                                href={`/blog/${article.id}`}
                                 style={{ fontSize: '16px', color: config.colors.text, textDecoration: 'none', fontWeight: 500 }}
                               >
                                 {article.title}

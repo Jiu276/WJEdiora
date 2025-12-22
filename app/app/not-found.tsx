@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Result, Button } from 'antd'
 import { HomeOutlined } from '@ant-design/icons'
 
@@ -17,10 +16,10 @@ export default function NotFound() {
       <Result
         status="404"
         title="404"
-        subTitle="抱歉，您访问的页面不存在。"
+        subTitle="Sorry, the page you visited does not exist."
         extra={
           <Button type="primary" icon={<HomeOutlined />} href="/">
-            返回首页
+            Back to Home
           </Button>
         }
       />

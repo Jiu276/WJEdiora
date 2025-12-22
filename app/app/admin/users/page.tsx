@@ -136,7 +136,7 @@ export default function UsersPage() {
       title: '角色',
       dataIndex: 'role',
       key: 'role',
-      render: (role) => (
+      render: (role: 'super_admin' | 'admin' | 'editor' | 'author') => (
         <Tag color={roleColors[role]}>{roleLabels[role]}</Tag>
       ),
     },

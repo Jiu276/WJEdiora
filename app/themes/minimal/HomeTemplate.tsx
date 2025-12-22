@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Typography, Space, Tag, Input } from 'antd'
 import { SearchOutlined, CalendarOutlined } from '@ant-design/icons'
@@ -88,7 +88,7 @@ export default function MinimalHomeTemplate({ articles, config, searchKeyword = 
             {filteredArticles.map((article) => (
               <article key={article.id} style={{ borderBottom: `1px solid ${config.colors.border}`, paddingBottom: 40 }}>
                 <Link
-                  href={`/blog/${article.slug || article.id}`}
+                  href={`/blog/${article.id}`}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
                   <Title

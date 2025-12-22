@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { Upload, Button, message, Image as AntImage } from 'antd'
 import { UploadOutlined, DeleteOutlined } from '@ant-design/icons'
-import type { UploadFile } from 'antd/es/upload/interface'
 
 interface ImageUploadProps {
   value?: string
@@ -31,7 +30,7 @@ export default function ImageUpload({ value, onChange }: ImageUploadProps) {
       } else {
         message.error('上传失败')
       }
-    } catch (error) {
+    } catch {
       message.error('上传失败')
     } finally {
       setLoading(false)

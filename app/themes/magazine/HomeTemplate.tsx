@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Card, Col, Row, Space, Tag, Typography, Input, Button } from 'antd'
@@ -111,7 +111,7 @@ export default function MagazineHomeTemplate({ articles, config, searchKeyword =
             {featuredArticle && !searchKeyword && (
           <div style={{ marginBottom: 60 }}>
             <Link
-              href={`/blog/${featuredArticle.slug || featuredArticle.id}`}
+              href={`/blog/${featuredArticle.id}`}
               style={{ textDecoration: 'none' }}
             >
               <Card
@@ -210,7 +210,7 @@ export default function MagazineHomeTemplate({ articles, config, searchKeyword =
               {otherArticles.map((article) => (
                 <Col xs={24} sm={12} lg={8} key={article.id}>
                   <Link
-                    href={`/blog/${article.slug || article.id}`}
+                    href={`/blog/${article.id}`}
                     style={{ textDecoration: 'none' }}
                   >
                     <Card
