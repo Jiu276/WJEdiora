@@ -1,13 +1,16 @@
 'use client'
 
+import { useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Typography, Button, Tag, Space, List, Divider } from 'antd'
+import { Typography, Button, Tag, Space, List, Divider, Card } from 'antd'
 import { ArrowLeftOutlined, LinkOutlined, EyeOutlined } from '@ant-design/icons'
 import ReadingProgress from '@/components/ReadingProgress'
 import BackToTop from '@/components/BackToTop'
 import ShareButtons from '@/components/ShareButtons'
 import type { ThemeConfig } from '@/lib/themeLoader'
+import { addHeadingIdsAndExtractToc } from '@/components/articleToc'
+import ArticleTocCard from '@/components/ArticleTocCard'
 
 const { Title, Paragraph } = Typography
 
@@ -63,6 +66,14 @@ export default function MinimalArticleDetailTemplate({
   config,
 }: ArticleDetailTemplateProps) {
   const router = useRouter()
+
+  const { htmlWithIds, headings } = useMemo(() => addHeadingIdsAndExtractToc(article.content), [article.content])
+
+  const scrollToHeading = useCallback((id: string) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [])
 
   return (
     <div style={{ minHeight: '100vh', background: config.colors.background, padding: 'clamp(30px, 8vw, 60px) clamp(16px, 4vw, 20px)' }}>
@@ -162,6 +173,8 @@ export default function MinimalArticleDetailTemplate({
             )}
           </div>
 
+          {headings.length > 0 && <ArticleTocCard headings={headings} config={config} onNavigate={scrollToHeading} />}
+
           {article.excerpt && (
             <Paragraph
               style={{
@@ -178,7 +191,7 @@ export default function MinimalArticleDetailTemplate({
           )}
 
           <div
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: htmlWithIds }}
             style={{
               lineHeight: 1.9,
               fontSize: 'clamp(15px, 4vw, 17px)',

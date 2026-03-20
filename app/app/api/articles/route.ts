@@ -6,6 +6,7 @@ import {
   generateMetaKeywords,
 } from '@/lib/seo'
 import { generateSlug } from '@/lib/slug'
+import { normalizeArticleContent } from '@/lib/normalizeArticleContent'
 import { autoMatchTags, createArticleTags, createArticleTagsFromMatch } from '@/lib/autoTags'
 import { getCurrentUser } from '@/lib/auth'
 
@@ -172,11 +173,16 @@ export async function POST(request: NextRequest) {
       links = [], // [{ keyword, url }]
     } = body
 
+    // Normalize content & excerpt saved by the generator (some models return escaped "\\n" strings
+    // and even JSON-like wrappers such as {"content":"..."}).
+    const normalizedContent = normalizeArticleContent(content || '')
+    const normalizedExcerpt = normalizeArticleContent(excerpt || '')
+
     // English-only guard for future content.
     if (
       containsCJK(title) ||
-      containsCJK(content) ||
-      containsCJK(excerpt) ||
+      containsCJK(normalizedContent) ||
+      containsCJK(normalizedExcerpt) ||
       containsCJK(metaTitle) ||
       containsCJK(metaDescription) ||
       containsCJK(metaKeywords) ||
@@ -245,9 +251,10 @@ export async function POST(request: NextRequest) {
     const autoMetaTitle = metaTitle !== undefined && metaTitle !== null && metaTitle.trim()
       ? metaTitle.trim()
       : generateMetaTitle(title, null)
-    const autoMetaDescription = metaDescription !== undefined && metaDescription !== null && metaDescription.trim()
-      ? metaDescription.trim()
-      : generateMetaDescription(excerpt, content || '', null)
+    const autoMetaDescription =
+      metaDescription !== undefined && metaDescription !== null && metaDescription.trim()
+        ? metaDescription.trim()
+        : generateMetaDescription(normalizedExcerpt || '', normalizedContent || '', null)
     const autoMetaKeywords = metaKeywords !== undefined && metaKeywords !== null && metaKeywords.trim()
       ? metaKeywords.trim()
       : generateMetaKeywords([], categoryName, title, null)
@@ -260,15 +267,15 @@ export async function POST(request: NextRequest) {
     // If enabled, inject keyword links into HTML before saving.
     const finalContentWithLinks =
       enableKeywordLinks && Array.isArray(links) && links.length > 0
-        ? injectKeywordLinksIntoHtml(content || '', links)
-        : (content || '')
+        ? injectKeywordLinksIntoHtml(normalizedContent || '', links)
+        : (normalizedContent || '')
 
     const article = await prisma.article.create({
       data: {
         title,
         slug,
         content: finalContentWithLinks,
-        excerpt: excerpt || '',
+        excerpt: normalizedExcerpt || '',
         status: status as 'draft' | 'published',
         categoryId,
         titleId: titleId || '1', // 默认标题

@@ -1,5 +1,6 @@
 'use client'
 
+import { useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Typography, Button, Card, Tag, Space, Row, Col, List, Divider } from 'antd'
@@ -9,6 +10,8 @@ import ReadingProgress from '@/components/ReadingProgress'
 import BackToTop from '@/components/BackToTop'
 import ShareButtons from '@/components/ShareButtons'
 import type { ThemeConfig } from '@/lib/themeLoader'
+import { addHeadingIdsAndExtractToc } from '@/components/articleToc'
+import ArticleTocCard from '@/components/ArticleTocCard'
 
 const { Title, Paragraph } = Typography
 
@@ -66,6 +69,14 @@ export default function DarkArticleDetailTemplate({
 }: ArticleDetailTemplateProps) {
   const router = useRouter()
 
+  const { htmlWithIds, headings } = useMemo(() => addHeadingIdsAndExtractToc(article.content), [article.content])
+
+  const scrollToHeading = useCallback((id: string) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [])
+
   return (
     <div style={{ minHeight: '100vh', background: config.colors.background }}>
       <ReadingProgress color={config.colors.primary} />
@@ -107,14 +118,16 @@ export default function DarkArticleDetailTemplate({
       </header>
 
       {/* Main content */}
-      <div style={{ maxWidth: 800, margin: '0 auto', padding: '48px 24px' }}>
-        <Button
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '48px 24px' }}>
+        <Row gutter={[24, 24]} align="top">
+          <Col xs={24} lg={16}>
+            <Button
           icon={<ArrowLeftOutlined />}
           onClick={() => router.push('/blog')}
           style={{ marginBottom: 24 }}
         >
           Back to list
-        </Button>
+            </Button>
 
         <Card
           style={{
@@ -211,7 +224,7 @@ export default function DarkArticleDetailTemplate({
           )}
 
             <div
-              dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: htmlWithIds }}
               style={{
                 lineHeight: 1.8,
                 fontSize: '16px',
@@ -378,6 +391,16 @@ export default function DarkArticleDetailTemplate({
             </Row>
           </Card>
         )}
+          </Col>
+
+          <Col xs={24} lg={8}>
+            {headings.length > 0 && (
+              <div style={{ position: 'sticky', top: 96 }}>
+                <ArticleTocCard headings={headings} config={config} onNavigate={scrollToHeading} />
+              </div>
+            )}
+          </Col>
+        </Row>
       </div>
 
       {/* 页脚 */}

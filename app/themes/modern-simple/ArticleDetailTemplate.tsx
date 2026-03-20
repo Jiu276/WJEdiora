@@ -1,14 +1,17 @@
-﻿'use client'
+'use client'
 
+import { useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Typography, Button, Tag, Space, Divider, Card, Row, Col } from 'antd'
-import { ArrowLeftOutlined, CalendarOutlined, EyeOutlined } from '@ant-design/icons'
+import { Typography, Button, Tag, Space, Divider, Card, Row, Col, List } from 'antd'
+import { ArrowLeftOutlined, CalendarOutlined, EyeOutlined, LinkOutlined } from '@ant-design/icons'
 import ReadingProgress from '@/components/ReadingProgress'
 import BackToTop from '@/components/BackToTop'
 import ShareButtons from '@/components/ShareButtons'
 import LazyImage from '@/components/LazyImage'
 import type { ThemeConfig } from '@/lib/themeLoader'
+import { addHeadingIdsAndExtractToc } from '@/components/articleToc'
+import ArticleTocCard from '@/components/ArticleTocCard'
 
 const { Title, Paragraph } = Typography
 
@@ -37,8 +40,16 @@ interface ArticleDetailTemplateProps {
   config: ThemeConfig
 }
 
-export default function ModernSimpleArticleDetailTemplate({ article, config }: ArticleDetailTemplateProps) {
+export default function ModernSimpleArticleDetailTemplate({ article, customDomains, links, relatedArticles, config }: ArticleDetailTemplateProps) {
   const router = useRouter()
+
+  const { htmlWithIds, headings } = useMemo(() => addHeadingIdsAndExtractToc(article.content), [article.content])
+
+  const scrollToHeading = useCallback((id: string) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [])
 
   return (
     <div style={{ minHeight: '100vh', background: config.colors.background }}>
@@ -103,6 +114,8 @@ export default function ModernSimpleArticleDetailTemplate({ article, config }: A
             </Space>
           </div>
 
+          {headings.length > 0 && <ArticleTocCard headings={headings} config={config} onNavigate={scrollToHeading} />}
+
           {article.excerpt && (
             <Paragraph style={{ fontSize: '18px', color: config.colors.subtext, marginBottom: 40, fontStyle: 'italic', borderLeft: `4px solid ${config.colors.primary}`, paddingLeft: 20 }}>
               {article.excerpt}
@@ -110,7 +123,7 @@ export default function ModernSimpleArticleDetailTemplate({ article, config }: A
           )}
 
           <div
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: htmlWithIds }}
             style={{ lineHeight: 1.9, fontSize: 'clamp(16px, 4vw, 18px)', color: config.colors.text }}
             className="article-content"
           />
@@ -131,6 +144,99 @@ export default function ModernSimpleArticleDetailTemplate({ article, config }: A
             <Typography.Text strong style={{ color: config.colors.text, marginRight: 16, fontSize: 14 }}>Share:</Typography.Text>
             <ShareButtons title={article.title} url={`/blog/${article.id}`} description={article.excerpt || undefined} image={article.featuredImage || undefined} />
           </div>
+
+          {/* Related domains */}
+          {customDomains.length > 0 && (
+            <Card
+              title="Related domains"
+              style={{ marginTop: 24, borderRadius: 8, background: config.colors.cardBackground, borderColor: config.colors.border }}
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {customDomains.map((domain: any) => (
+                  <Tag key={domain.id} color={config.colors.primary}>
+                    {domain.domain}
+                  </Tag>
+                ))}
+              </div>
+            </Card>
+          )}
+
+          {/* Related links */}
+          {links.length > 0 && (
+            <Card
+              title="Related links"
+              style={{ marginTop: 24, borderRadius: 8, background: config.colors.cardBackground, borderColor: config.colors.border }}
+            >
+              <List
+                dataSource={links}
+                renderItem={(link: any) => (
+                  <List.Item style={{ border: 'none', padding: '8px 0' }}>
+                    <LinkOutlined style={{ marginRight: 8, color: config.colors.primary }} />
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: config.colors.primary, textDecoration: 'none' }}
+                    >
+                      {link.keyword}
+                    </a>
+                  </List.Item>
+                )}
+              />
+            </Card>
+          )}
+
+          {/* Related articles */}
+          {relatedArticles.length > 0 && (
+            <Card
+              title="Related articles"
+              style={{ marginTop: 24, borderRadius: 8, background: config.colors.cardBackground, borderColor: config.colors.border }}
+            >
+              <Row gutter={[16, 16]}>
+                {relatedArticles.map((related: any) => (
+                  <Col xs={24} sm={12} lg={8} key={related.id}>
+                    <Card
+                      hoverable
+                      cover={
+                        related.featuredImage ? (
+                          <img alt={related.title} src={related.featuredImage} style={{ height: 150, objectFit: 'cover' }} />
+                        ) : (
+                          <div
+                            style={{
+                              height: 150,
+                              background: `linear-gradient(135deg, ${config.colors.primary} 0%, ${config.colors.accent} 100%)`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: '#fff',
+                              fontSize: '24px',
+                            }}
+                          >
+                            {related.title.charAt(0)}
+                          </div>
+                        )
+                      }
+                      onClick={() => router.push(`/blog/${related.slug || related.id}`)}
+                      style={{ cursor: 'pointer', height: '100%', background: config.colors.cardBackground, borderColor: config.colors.border }}
+                    >
+                      <Card.Meta
+                        title={<Typography.Text ellipsis style={{ fontSize: '14px', color: config.colors.text }}>{related.title}</Typography.Text>}
+                        description={
+                          <div>
+                            {related.excerpt && (
+                              <Paragraph ellipsis={{ rows: 2 }} style={{ fontSize: '12px', color: config.colors.subtext, marginBottom: 8 }}>
+                                {related.excerpt}
+                              </Paragraph>
+                            )}
+                          </div>
+                        }
+                      />
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </Card>
+          )}
         </div>
       </article>
 
